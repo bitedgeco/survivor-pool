@@ -2,15 +2,16 @@
 
 ###Rules of a Survivor Pool
 
-* Every week participants must select the winner of a single NFL game.
+* Every week participants select a team to win a single NFL game.
 * Participants are eliminated if their selected team losses.
-* Survivors cannot use their the team that they selected for the remainder of the season.
+* Survivors cannot select the team twice.
 * The winner(s) of the pool is the person/people who survives the longest.
 
 ###Dependancies
 
-* Pip pyramid
-* Pip install -e .
+* PIP
+* Pyramid
+Then run $ PIP install -e .
 
 ### Authors
 
