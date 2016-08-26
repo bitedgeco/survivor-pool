@@ -16,23 +16,23 @@
 
 __James Canning__ 
 
-Website: [Bitedge](https://www.bitedge.co/)
+    Website: [Bitedge](https://www.bitedge.co/)
 
-Git Hub:[github.com/bitedgeco](https://github.com/bitedgeco)
+    Git Hub:[github.com/bitedgeco](https://github.com/bitedgeco)
 
 
 __Derek Hewitt__
 
-Email: <derekmhewitt@gmail.com>
+    Email: <derekmhewitt@gmail.com>
 
-Git Hub: [github.com/derekmhewitt](https://github.com/derekmhewitt)
+    Git Hub: [github.com/derekmhewitt](https://github.com/derekmhewitt)
 
 
 __Zach Rickert__
 
-Email: <zachrickert@gmail.com>
+    Email: <zachrickert@gmail.com>
 
-Git Hub: [github.com/zachrickert](https://github.com/zachrickert)
+    Git Hub: [github.com/zachrickert](https://github.com/zachrickert)
 
 
 ###Status
