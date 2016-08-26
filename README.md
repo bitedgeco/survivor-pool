@@ -15,16 +15,22 @@
 ### Authors
 
 _James Canning_ 
+
 Website: [Bitedge](https://www.bitedge.co/)
-Git Hub:[https://github.com/bitedgeco](https://github.com/bitedgeco)
+
+Git Hub:[github.com/bitedgeco](https://github.com/bitedgeco)
 
 _Derek Hewitt_
+
 Email: [derekmhewitt@gmail.com](derekmhewitt@gmail.com)
-Git Hub: [github.com/derekmhewitt](github.com/derekmhewitt)
+
+Git Hub: [github.com/derekmhewitt](https://github.com/derekmhewitt)
 
 _Zach Rickert_
+
 Email: [zachrickert@gmail.com](zachrickert@gmail.com)
-Git Hub: [github.com/zachrickert](github.com/zachrickert)
+
+Git Hub: [github.com/zachrickert](https://github.com/zachrickert)
 
 ###Status
 Beginning development phase
