@@ -23,14 +23,14 @@ Git Hub:[github.com/bitedgeco](https://github.com/bitedgeco)
 
 __Derek Hewitt__
 
-Email: [derekmhewitt@gmail.com](email:derekmhewitt@gmail.com)
+Email: <derekmhewitt@gmail.com>
 
 Git Hub: [github.com/derekmhewitt](https://github.com/derekmhewitt)
 
 
 __Zach Rickert__
 
-Email: [zachrickert@gmail.com](email:zachrickert@gmail.com)
+Email: <zachrickert@gmail.com>
 
 Git Hub: [github.com/zachrickert](https://github.com/zachrickert)
 
