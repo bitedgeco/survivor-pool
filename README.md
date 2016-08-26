@@ -1,6 +1,6 @@
 # Survivor Pool
 
-###Rules of a Survivor Pool
+###Rules of a survivor pool
 
 * Every week participants select a team to win a single NFL game.
 * Participants are eliminated if their selected team losses.
@@ -10,7 +10,7 @@
 ###Dependancies
 
 * PIP
-* Pyramid
+* Pyramid   
 Then run $ PIP install -e .
 
 ### Authors
