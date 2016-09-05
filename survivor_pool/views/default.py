@@ -4,12 +4,12 @@ from pyramid.view import view_config
 from sqlalchemy.exc import DBAPIError
 
 
-@view_config(route_name='home', renderer='templates/main.jinja2')
+@view_config(route_name='home', renderer='templates/main.jinja2', permission='public')
 def home_view(request):
     return {}
 
 
-@view_config(route_name='about', renderer='templates/about.jinja2')
+@view_config(route_name='about', renderer='templates/about.jinja2', permission='public')
 def about_view(request):
     return {}
 
@@ -19,7 +19,7 @@ def admin_view(request):
     return {}
 
 
-@view_config(route_name='login', renderer='templates/login.jinja2')
+@view_config(route_name='login', renderer='templates/login.jinja2', permission='public')
 def login_view(request):
     return {}
 
