@@ -19,6 +19,8 @@ requires = [
     'waitress',
     'ipython',
     'pyramid-ipython',
+    'passlib',
+    'psycopg2',
 ]
 
 tests_require = [
