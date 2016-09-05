@@ -1,4 +1,12 @@
 {% extends "layout.jinja2" %}
 {% block body %}
-    This is the main page.
+    <h2>How a survivor pool works:</h2>
+    <ol>
+        <li><a href = "{{ request.route_url('login') }}"Sign - Up</a>
+        <li>Every week participants select a team to win a single NFL game.
+            <ul>All picks must be in by Thursday 5:00pm Eastern
+        <li>Participants are eliminated if their selected team losses.
+        <li>Survivors cannot select the team twice.
+        <li>The winner(s) of the pool is the person/people who survives the longest.
+    </ol>
 {% endblock %}
