@@ -142,3 +142,4 @@ ENV/
 bin/
 share/
 pip-selfcheck.json
+survivor-pool.sqlite
