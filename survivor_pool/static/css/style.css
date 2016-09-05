@@ -11,12 +11,32 @@ h1{
     text-align: center
 }
 
+#logo {
+    height: 4rem;
+    margin-top: -0.7rem;
+}
+
+.navbar-brand:hover {
+  opacity: 0.7;
+}
+
+.nav-item:hover {
+    background-color: #eee;
+}
+
+i {
+    color: #377a97;
+}
+
 #content {
     padding-top: 6rem;
     padding-bottom: 6rem;
 }
 
 .panel-footer {
+    margin-top: 5rem;
+    background-image: linear-gradient(#FFF, #58ae82);
+    border-top: none;
     height: 5rem;
     position: absolute;
     bottom: 0;
