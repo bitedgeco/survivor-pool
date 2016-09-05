@@ -141,3 +141,4 @@ ENV/
 .bin
 bin/
 share/
+pip-selfcheck.json
