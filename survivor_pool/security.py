@@ -17,7 +17,7 @@ class UserAuth(object):
     __acl__ = [
         (Allow, Everyone, 'public'),
         (Allow, Authenticated, 'private')
-        (Allow, 'admin', 'admin')
+        # (Allow, 'admin', 'admin')
     ]
 
 
