@@ -1,0 +1,25 @@
+html { 
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    font-family: "Open Sans", "Avenir Next", "Helvetica Neue", Helvetica, sans-serif;
+}
+
+h1{
+    text-align: center
+}
+
+#content {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+}
+
+.panel-footer {
+    height: 5rem;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center
+}

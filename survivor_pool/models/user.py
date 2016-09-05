@@ -26,4 +26,8 @@ class User(Base):
     isalive = Column(Boolean)
 
 
+<<<<<<< HEAD
 Index('user_index', User.username, unique=True, mysql_length=255)
+=======
+# Index('user_index', User.name, unique=True, mysql_length=255)
+>>>>>>> 6ab2fcddcd0a449fd87c14ea03aaebfad692616a
