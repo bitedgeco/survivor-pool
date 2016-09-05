@@ -29,7 +29,7 @@ def pool_view(request):
     return {}
 
 
-@view_config(route_name='selections', renderer='templates/selections.jinja2')
+@view_config(route_name='select', renderer='templates/select.jinja2')
 def selections_view(request):
     return {}
 
