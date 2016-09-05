@@ -1,17 +1,62 @@
 <!DOCTYPE html>
-<html lang="{{request.locale_name}}">
-  <head>
-    <title>Survivor Pool</title>
-    <!-- Custom styles for this scaffold -->
-    <link href="{{request.static_url('survivor_pool:static/theme.css')}}" rel="stylesheet">
-  </head>
+<html>
+<head>
+    <title>Survivor pool</title>
+    <base href="/">
+    <!-- Bootstrap CSS CDN-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- Font Awsome CDN-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <!-- External CSS -->
+    <link href="{{request.static_url('survivor_pool:static/css/style.css')}}" rel="stylesheet">
 
-  <body>
-      {% block body %}{% endblock %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div id="top"></div>
+    <!-- navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Logo</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="nav-item"><a href="/"><i class="fa fa-lg fa-home"></i> Home</a></li>
+                    {% if request.authenticated_userid %}
+                        <li class="nav-item"><a href="/new"><i class="fa fa-lg fa-plus"></i> New entry</a></li>
+                    {% endif %}
+                    {% if request.authenticated_userid %}
+                        <li class="nav-item"><a href="/logout"><i class="fa fa-lg fa-sign-out"></i> Logout</a></li>
+                    {% else %}
+                        <li class="nav-item"><a href="/login"><i class="fa fa-lg fa-user"></i>  Login</a></li>
+                    {% endif %}
+                </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                    <li class="nav-item"><a href="https://github.com/bitedgeco" target="_blank"><i class="fa fa-lg fa-github"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav><!-- End of navbar -->
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="//oss.maxcdn.com/libs/jquery/1.10.2/jquery.min.js"></script>
-  </body>
+    <div class="container" id="content">
+        {% block body %}{% endblock %}
+     </div>
+
+    <footer class="panel-footer">
+        <a href="#top"><i class="fa fa-lg fa-long-arrow-up"></i>  To the top  <i class="fa fa-lg fa-long-arrow-up"></i></a>
+    </footer>
+
+    <!-- JQuery CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <!-- Bootstrap JS CDN -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+</body>
 </html>
