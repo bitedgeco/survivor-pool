@@ -8,19 +8,22 @@ from sqlalchemy import (
     Unicode,
     UnicodeText,
     DateTime,
+    Boolean,
 )
 
 from .meta import Base
 
 
 class User(Base):
-    __tablename__ = 'models'
+    __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
     username = Column(Unicode)
     password = Column(Unicode)
     signup = Column(DateTime)
     profile = Column(UnicodeText)
     placeholder = Column(Integer)
+    isadmin = Column(Boolean)
+    isalive = Column(Boolean)
 
 
-Index('user_index', User.name, unique=True, mysql_length=255)
+Index('user_index', User.username, unique=True, mysql_length=255)
