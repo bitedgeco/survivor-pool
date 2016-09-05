@@ -14,7 +14,7 @@ from .meta import Base
 
 
 class User(Base):
-    __tablename__ = 'models'
+    __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
     username = Column(Unicode)
     password = Column(Unicode)
@@ -23,4 +23,4 @@ class User(Base):
     placeholder = Column(Integer)
 
 
-Index('user_index', User.name, unique=True, mysql_length=255)
+# Index('user_index', User.name, unique=True, mysql_length=255)
