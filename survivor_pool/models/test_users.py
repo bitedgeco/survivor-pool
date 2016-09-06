@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from passlib.apps import custom_app_context as pwd_context
 import datetime
 

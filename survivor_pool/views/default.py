@@ -38,7 +38,13 @@ def pool_view(request):
 
 
 @view_config(route_name='select', renderer='templates/select.jinja2')
-def selections_view(request):
+def select_view(request):
+    if request.method == "GET":
+        # this will load the teams for a given week.  Defaults to current week.
+        pass
+    if request.method == "POST":
+        # this will save the given teams seleciton for whatever week
+        pass
     return {}
 
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+from sqlalchemy.orm import relationship
 from sqlalchemy import (
     Column,
     Index,
@@ -24,5 +24,6 @@ class User(Base):
     placeholder = Column(Integer)
     isadmin = Column(Boolean)
     isalive = Column(Boolean)
+    children = relationship("Select", back_populates="event")
 
 Index('user_index', User.username, unique=True, mysql_length=255)
