@@ -8,7 +8,7 @@ from pyramid.security import Everyone, Authenticated, Allow
 
 from passlib.apps import custom_app_context as pwd_context
 
-from models.user import User
+from .models.user import User
 
 
 class UserAuth(object):

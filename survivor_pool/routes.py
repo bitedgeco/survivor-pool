@@ -5,5 +5,5 @@ def includeme(config):
     config.add_route('home', '/')
     config.add_route('login', '/login')
     config.add_route('pool', '/pool')
-    config.add_route('selections', '/selections')
+    config.add_route('select', '/select')
 
