@@ -1,7 +1,9 @@
 from pyramid.response import Response
 from pyramid.view import view_config
-
 from sqlalchemy.exc import DBAPIError
+from ..security import check_credentials
+from pyramid.httpexceptions import HTTPFound
+from pyramid.security import remember, forget
 
 
 @view_config(route_name='home', renderer='templates/main.jinja2', permission='public')
@@ -21,6 +23,12 @@ def admin_view(request):
 
 @view_config(route_name='login', renderer='templates/login.jinja2', permission='public')
 def login_view(request):
+    if request.method == 'POST':
+        username = request.params.get('username', '')
+        password = request.params.get('password', '')
+        if check_credentials(request, username, password):
+            headers = remember(request, username)
+            return HTTPFound(location=request.route_url('home'), headers=headers)
     return {}
 
 
@@ -32,7 +40,6 @@ def pool_view(request):
 @view_config(route_name='select', renderer='templates/select.jinja2')
 def selections_view(request):
     return {}
-
 
 
 db_err_msg = """\

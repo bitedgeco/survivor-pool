@@ -1,4 +1,18 @@
 {% extends "layout.jinja2" %}
 {% block body %}
-    This is the login page.
+<h2>Login</h2>
+<form class="input-group" action="" method="POST">
+    <div class="input-group" class="field">
+        <label for="username">Username</label>
+        <input class="form-control" type="text" name="username" id="username"/>
+    </div>
+    <div class="input-group" class="field">
+        <label for="password">Password</label>
+        <input class="form-control" type="password" name="password" id="password"/>
+    </div>
+    <br>
+    <div class="input-group" class="control_row">
+        <button class="btn btn-default" type="submit" name="Login"/>Login <i class="fa fa-lg fa-sign-in"></i> </button>
+    </div>
+</form>
 {% endblock %}
