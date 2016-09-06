@@ -83,9 +83,9 @@ def pool_view(request):
     return {'participants': participants}
 
 
-@view_config(route_name="pick_test", renderer="templates/pick_test.jinja2")
+@view_config(route_name="pick_test", renderer="templates/pick_test.jinja2", permission='public')
 def pick_test(request):
     """This is just a test view, it'll be removed before production."""
-    from .models.event import Event
-    game = request.dbsession.query(Event).one()
+    from ..models.event import Event
+    game = request.dbsession.query(Event).first()
     return {"game": game}

@@ -52,9 +52,6 @@ def main(argv=sys.argv):
         for entry in TEST_USERS:
             temp = User(username=entry["username"],
                         password=entry["password"],
-                        signup=entry["signup"],
-                        profile=entry["profile"],
-                        placeholder=entry["placeholder"],
                         isadmin=entry["isadmin"],
                         isalive=entry["isalive"])
             dbsession.add(temp)
