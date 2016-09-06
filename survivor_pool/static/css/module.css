@@ -1,0 +1,27 @@
+#logo {
+    height: 4rem;
+    margin-top: -0.7rem;
+}
+
+.navbar-brand:hover {
+  opacity: 0.7;
+}
+
+.nav-item:hover {
+    background-color: #eee;
+}
+
+i {
+    color: #377a97;
+}
+
+#hero {
+    display: block;
+    margin: auto;
+}
+
+.about-pic {
+    max-height: 250px;
+    padding-top: 5rem;
+    border-radius: 1rem;
+}

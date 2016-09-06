@@ -1,4 +1,27 @@
 {% extends "layout.jinja2" %}
 {% block body %}
-    This is the pool page.  Details on who is alive and who is eliminated.
+    <h1>NFL 2016 pool</h1>
+    <div class='row'>
+        <div class='col-md-6'>
+            <h2>Surviving</h2>
+            {% for participant in participants %}
+                {% if participant.isalive %}
+                    <p>{{ participant.username }}
+                    <br>Week # selection: Team X</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class='col-md-6'>
+            <h2>Eliminated</h2>
+            {% for participant in participants %}
+                {% if not participant.isalive %}
+                    <p>{{ participant.username }}
+                    <br> Eliminated by selecting team X week #.</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
+
+
+

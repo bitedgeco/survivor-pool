@@ -32,7 +32,7 @@ def check_credentials(request, username, password):
     """Checks user submitted username and pw against stored pw to determine
     authentication state."""
     gotten_usernames = request.dbsession.query(User).all()
-    is_authenticated = False
+    is_authenticated = True
     if gotten_usernames:
         if any(d.username == username for d in gotten_usernames):
             db_pw = request.dbsession.query(User).filter(User.username == username)
