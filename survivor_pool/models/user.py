@@ -11,6 +11,7 @@ from sqlalchemy import (
 )
 
 from .meta import Base
+from .pick import Pick
 
 
 class User(Base):
@@ -28,4 +29,8 @@ class User(Base):
     # def __repr__(self):
     #     return "user: {}".format(self.username)
 
-    # color = "blue"
+    def _add_pick(self, event_picked, team_picked, request):
+        new_pick = Pick(team=team_picked)
+        new_pick.event = event_picked
+        self.event.append(new_pick)
+        request.dbsession.add(new_pick)
