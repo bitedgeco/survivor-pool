@@ -29,6 +29,8 @@ def login_view(request):
         if check_credentials(request, username, password):
             headers = remember(request, username)
             return HTTPFound(location=request.route_url('pool'), headers=headers)
+        error = 'invalid credentials'
+        return {'error': error}
     return {}
 
 
