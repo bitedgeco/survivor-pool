@@ -25,5 +25,4 @@ class User(Base):
     isadmin = Column(Boolean)
     isalive = Column(Boolean)
 
-
 Index('user_index', User.username, unique=True, mysql_length=255)
