@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
 import os
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.security import Everyone, Authenticated, Allow
-
 from passlib.apps import custom_app_context as pwd_context
-
 from .models.user import User
 
 
@@ -29,13 +26,12 @@ class UserAuth(object):
 
 
 def check_credentials(request, username, password):
-    """Checks user submitted username and pw against stored pw to determine
-    authentication state."""
+    """Checks user submitted username and pw against stored pw to determine authentication state."""
     gotten_usernames = request.dbsession.query(User).all()
-    is_authenticated = True
+    is_authenticated = False
     if gotten_usernames:
         if any(d.username == username for d in gotten_usernames):
-            db_pw = request.dbsession.query(User).filter(User.username == username)
+            db_pw = request.dbsession.query(User).filter(User.username == username).first()
             try:
                 is_authenticated = pwd_context.verify(password, db_pw.password)
             except ValueError:
