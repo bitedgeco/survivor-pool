@@ -88,7 +88,7 @@ def pick_test(request):
 
     if request.method == 'POST':
         my_user = request.authenticated_userid
-        user_input = request.params.value.slice()
+        user_input = request.params.game.slice()
         game_object = request.dbsession.query(Event).get(user_input[1])
         new_pick = my_user._add_pick(game_object, user_input[0])
         request.dbsession.add(new_pick)
