@@ -1,0 +1,24 @@
+{% extends "layout.jinja2" %}
+{% block body %}
+    This is the selection page.  Participants will select which team they
+    would like to pick this week.
+    <nav>
+        <ul>
+            <li>Week 1</li>
+            <li>Week 2</li>
+        </ul>
+    </nav>
+    There will be a selector here for a given week.  This will make a query for that week to the db which then populates the template below.
+    Will default to the current week, or the first week if pre-season.
+    <ul>
+        {{% for event in query %}}
+            <li>
+                <ul>
+                {{ datetime }}
+                    <li data-value="home">{{ home }}</li>
+                    <li data-value="away">{{ away }}</li>
+                </ul>
+            </li>
+        {{% endfor %}}
+    </ul>
+{% endblock %}
