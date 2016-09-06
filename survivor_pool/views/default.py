@@ -2,8 +2,9 @@ from pyramid.response import Response
 from pyramid.view import view_config
 from sqlalchemy.exc import DBAPIError
 from ..security import check_credentials
-from pyramid.httpexceptions import HTTPFound 
+from pyramid.httpexceptions import HTTPFound
 from pyramid.security import remember, forget
+from ..models.user import User
 
 
 @view_config(route_name='home', renderer='templates/main.jinja2', permission='public')
@@ -32,13 +33,21 @@ def login_view(request):
     return {}
 
 
+@view_config(route_name='logout')
+def logout(request):
+    headers = forget(request)
+    return HTTPFound(request.route_url('home'), headers=headers)
+
+
 @view_config(route_name='pool', renderer='templates/pool.jinja2')
 def pool_view(request):
-    return {}
+    query = request.dbsession.query(User)
+    participants = query.order_by(User.username).all()
+    return {'participants': participants}
 
 
 @view_config(route_name='select', renderer='templates/select.jinja2')
-def selections_view(request):
+def select_view(request):
     return {}
 
 
