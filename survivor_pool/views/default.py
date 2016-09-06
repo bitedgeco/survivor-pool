@@ -2,7 +2,7 @@ from pyramid.response import Response
 from pyramid.view import view_config
 from sqlalchemy.exc import DBAPIError
 from ..security import check_credentials
-from pyramid.httpexceptions import HTTPFound
+from pyramid.httpexceptions import HTTPFound 
 from pyramid.security import remember, forget
 
 

@@ -28,10 +28,10 @@ def check_credentials(request, username, password):
     gotten_usernames = request.dbsession.query(User).all()
     is_authenticated = False
     if gotten_usernames:
-        if username in gotten_usernames:
-            db_pw = request.dbsession.query(User.username == username).one()
+        if any(d.username == username for d in gotten_usernames):
+            db_pw = request.dbsession.query(User).filter(User.username == username)
             try:
-                is_authenticated = pwd_context.verify(password, db_pw)
+                is_authenticated = pwd_context.verify(password, db_pw.password)
             except ValueError:
                 pass
     return is_authenticated
