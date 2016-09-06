@@ -11,10 +11,10 @@ from sqlalchemy import (
 from .meta import Base
 
 
-class Select(Base):
-    __tablename__ = 'select'
+class Pick(Base):
+    __tablename__ = 'picks'
     user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
-    event_id = Column(Integer, ForeignKey('event.id'), primary_key=True)
+    event_id = Column(Integer, ForeignKey('events.id'), primary_key=True)
     team = Column(Unicode)
-    parent = relationship("User", back_populates="event")
-    child = relationship("Event", back_populates="users")
+    user_list = relationship("User", back_populates="event")
+    event = relationship("Event", back_populates="user_list")

@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 from sqlalchemy.orm import relationship
 from sqlalchemy import (
     Column,
-    Index,
     Integer,
     Unicode,
     UnicodeText,
@@ -24,6 +23,9 @@ class User(Base):
     placeholder = Column(Integer)
     isadmin = Column(Boolean)
     isalive = Column(Boolean)
-    children = relationship("Select", back_populates="event")
+    event = relationship("Pick", back_populates="user_list")
 
-Index('user_index', User.username, unique=True, mysql_length=255)
+    # def __repr__(self):
+    #     return "user: {}".format(self.username)
+
+    # color = "blue"

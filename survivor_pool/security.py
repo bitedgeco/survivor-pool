@@ -16,10 +16,16 @@ class UserAuth(object):
     def __init__(self, request):
         self.request = request
 
-    __acl__ = [
-        (Allow, Everyone, 'public'),
-        (Allow, Authenticated, 'private')
-    ]
+    def __acl__(self):
+        this_acl = [
+            (Allow, Everyone, 'public'),
+            (Allow, Authenticated, 'private'),
+        ]
+        # if self.request.authenticate_userid:
+        #     this_user = self.request.dbsession.query(User).filter(username=self.request.authenticate_userid).first()
+        #     if this_user.isadmin:
+        #         this_acl.append((Allow, self.request.authenticate_userid, 'admin'))
+        return this_acl
 
 
 def check_credentials(request, username, password):
@@ -30,7 +36,6 @@ def check_credentials(request, username, password):
     if gotten_usernames:
         if any(d.username == username for d in gotten_usernames):
             db_pw = request.dbsession.query(User).filter(User.username == username)
-            db_pw.all()
             try:
                 is_authenticated = pwd_context.verify(password, db_pw.password)
             except ValueError:

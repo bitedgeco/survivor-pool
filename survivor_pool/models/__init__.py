@@ -9,6 +9,11 @@ import zope.sqlalchemy
 # Base.metadata prior to any initialization routines
 #from .mymodel import MyModel  # noqa
 
+from .user import User
+from .event import Event
+from .pick import Pick
+# import all models so that they are in scope for configure_mappers
+
 # run configure_mappers after defining all of the models to ensure
 # all relationships can be setup
 configure_mappers()
