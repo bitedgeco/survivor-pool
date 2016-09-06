@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+from sqlalchemy.orm import relationship
 from sqlalchemy import (
     Column,
-    Index,
     Integer,
     Unicode,
     Boolean,
 )
 
 from .meta import Base
+from .pick import Pick
 
 
 class User(Base):
@@ -19,5 +19,13 @@ class User(Base):
     password = Column(Unicode)
     isadmin = Column(Boolean)
     isalive = Column(Boolean)
+    event = relationship("Pick", back_populates="user_list")
 
-Index('user_index', User.username, unique=True, mysql_length=255)
+    # def __repr__(self):
+    #     return "user: {}".format(self.username)
+
+    def _add_pick(self, event_picked, team_picked, request):
+        new_pick = Pick(team=team_picked)
+        new_pick.event = event_picked
+        self.event.append(new_pick)
+        request.dbsession.add(new_pick)

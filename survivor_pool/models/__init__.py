@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from sqlalchemy import engine_from_config
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import configure_mappers
@@ -6,6 +8,11 @@ import zope.sqlalchemy
 # import or define all models here to ensure they are attached to the
 # Base.metadata prior to any initialization routines
 #from .mymodel import MyModel  # noqa
+
+from .user import User
+from .event import Event
+from .pick import Pick
+# import all models so that they are in scope for configure_mappers
 
 # run configure_mappers after defining all of the models to ensure
 # all relationships can be setup

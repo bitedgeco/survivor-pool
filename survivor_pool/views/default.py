@@ -48,6 +48,28 @@ def signup_view(request):
     return {}
 
 
+@view_config(route_name='select', renderer='templates/select.jinja2')
+def select_view(request):
+    if request.method == "GET":
+        # use the formfield to submit event.target element
+        # once we're got that element, get ahold of the week #
+        # perform db query for week #
+        # populate template with query results
+        return {}
+    if request.method == "POST":
+        # use formfield to submit event.target element
+        # ID the element via data-value tag
+        # call _add_pick on the User identified from the header and passing in
+        # the correct event and home/away team
+        # redirect user to the same view again but reloaded with their pick
+        return {}
+    else:
+        # determine current week
+        # perform appropriate db query for that week
+        # display events to user
+        return {}
+
+
 @view_config(route_name='logout')
 def logout(request):
     headers = forget(request)
@@ -59,8 +81,3 @@ def pool_view(request):
     query = request.dbsession.query(User)
     participants = query.order_by(User.username).all()
     return {'participants': participants}
-
-
-@view_config(route_name='select', renderer='templates/select.jinja2')
-def select_view(request):
-    return {}

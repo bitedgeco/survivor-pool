@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 EVENTS = [
     {'datetime': 'Thursday September 08 2016 20:30', 'home': 'Carolina Panthers', 'away': 'Denver Broncos', 'week': '1'},
     {'datetime': 'Sunday September 11 2016 13:00', 'home': 'Buffalo Bills', 'away': 'Baltimore Ravens', 'week': '1'},
