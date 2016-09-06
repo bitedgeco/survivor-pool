@@ -21,32 +21,28 @@ def admin_view(request):
     return {}
 
 
-@view_config(route_name='login', renderer='templates/login.jinja2', permission='public')
+@view_config(route_name='login-signup', renderer='templates/login-signup.jinja2', permission='public')
 def login_view(request):
     if request.method == 'POST':
-        username = request.params.get('username', '')
-        password = request.params.get('password', '')
-        if check_credentials(request, username, password):
-            headers = remember(request, username)
+        if request.params.get('username', ''):
+            username = request.params.get('username', '')
+            password = request.params.get('password', '')
+            if check_credentials(request, username, password):
+                headers = remember(request, username)
+                return HTTPFound(location=request.route_url('pool'), headers=headers)
+            login_error = 'invalid credentials'
+            return {'login_error': login_error}
+        if request.params.get('new_username', ''):
+            new_username = request.params.get('new_username', '')
+            new_password = request.params.get('new_password', '')
+            existing_users = request.dbsession.query(User).all()
+            if any(d.username == new_username for d in existing_users):
+                signup_error = 'user already exists'
+                return {'signup_error': signup_error}
+            new_user = User(username=new_username, password=new_password, isalive=True, isadmin=False)
+            request.dbsession.add(new_user)
+            headers = remember(request, new_username)
             return HTTPFound(location=request.route_url('pool'), headers=headers)
-        error = 'invalid credentials'
-        return {'error': error}
-    return {}
-
-
-@view_config(route_name='signup', renderer='templates/signup.jinja2', permission='public')
-def signup_view(request):
-    if request.method == 'POST':
-        new_username = request.params.get('new_username', '')
-        new_password = request.params.get('new_password', '')
-        existing_users = request.dbsession.query(User).all()
-        if any(d.username == new_username for d in existing_users):
-            error = 'user already exists'
-            return {'error': error}
-        new_user = User(username=new_username, password=new_password, isalive=True, isadmin=False)
-        request.dbsession.add(new_user)
-        headers = remember(request, new_username)
-        return HTTPFound(location=request.route_url('pool'), headers=headers)
     return {}
 
 
