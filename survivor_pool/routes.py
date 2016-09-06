@@ -4,7 +4,7 @@ def includeme(config):
     config.add_route('admin', '/admin')
     config.add_route('home', '/')
     config.add_route('login', '/login')
+    config.add_route('signup', '/signup')
     config.add_route('logout', '/logout')
     config.add_route('pool', '/pool')
     config.add_route('select', '/select')
-

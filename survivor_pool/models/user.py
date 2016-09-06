@@ -6,8 +6,6 @@ from sqlalchemy import (
     Index,
     Integer,
     Unicode,
-    UnicodeText,
-    DateTime,
     Boolean,
 )
 
@@ -19,9 +17,6 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     username = Column(Unicode)
     password = Column(Unicode)
-    signup = Column(DateTime)
-    profile = Column(UnicodeText)
-    placeholder = Column(Integer)
     isadmin = Column(Boolean)
     isalive = Column(Boolean)
 
