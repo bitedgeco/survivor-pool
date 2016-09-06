@@ -87,5 +87,14 @@ def pool_view(request):
 def pick_test(request):
     """This is just a test view, it'll be removed before production."""
     from ..models.event import Event
-    game = request.dbsession.query(Event).first()
-    return {"game": game}
+
+    if request.method == 'POST':
+        my_user = request.authenticated_userid
+        user_input = request.params.value.slice()
+        game_object = request.dbsession.query(Event).get(user_input[1])
+        new_pick = my_user._add_pick(game_object, user_input[0])
+        request.dbsession.add(new_pick)
+        return HTTPFound(location=request.route_url('pick_test'))
+    else:
+        game = request.dbsession.query(Event).first()
+        return {"game": game}
