@@ -8,6 +8,8 @@ from pyramid.security import Everyone, Authenticated, Allow
 
 from passlib.apps import custom_app_context as pwd_context
 
+from models.user import User
+
 
 class UserAuth(object):
 
@@ -17,20 +19,19 @@ class UserAuth(object):
     __acl__ = [
         (Allow, Everyone, 'public'),
         (Allow, Authenticated, 'private')
-        # (Allow, 'admin', 'admin')
     ]
 
 
-def check_credentials(username, password):
+def check_credentials(request, username, password):
     """Checks user submitted username and pw against stored pw to determine
     authentication state."""
-    gotten_usernames = dbquery_for_usernames
+    gotten_usernames = request.dbsession.query(User).all()
     is_authenticated = False
     if gotten_usernames:
         if username in gotten_usernames:
-            gotten_password = dbquery_for_usernames_pw_hash
+            db_pw = request.dbsession.query(User.username == username).one()
             try:
-                is_authenticated = pwd_context.verify(password, gotten_password)
+                is_authenticated = pwd_context.verify(password, db_pw)
             except ValueError:
                 pass
     return is_authenticated
