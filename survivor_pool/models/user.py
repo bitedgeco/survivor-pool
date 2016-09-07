@@ -31,3 +31,16 @@ class User(Base):
         # self.event.append(new_pick)
         new_pick.user_list = self
         return new_pick
+
+    def _pick_for_week(self, week):
+        """Gets the name of the team picked in week.
+
+        Returns team name or "user didn't pick" string if user didn't make
+        a selection for that week.
+        """
+        try:
+            picked_name_in_list = [getattr(pick.event, pick.team) for pick in
+                                   self.event if pick.event.week == week]
+            return picked_name_in_list[0]
+        except IndexError:
+            return "User didn't pick a team for this week."
