@@ -41,7 +41,7 @@
                     {% if request.authenticated_userid %}
                         <li class="nav-item" id="welcome">Welcome {{ request.authenticated_userid }}</li>
                         <li class="nav-item nav-hover"><a href="/logout"><i class="fa fa-lg fa-sign-out"></i> Logout</a></li>
-                        <li class="nav-item nav-hover"><a href="/admin"><i class="fa fa-lg fa-cog"></i> Admin</a></li>
+                        <li class="nav-item nav-hover"><a href="/admin/week1"><i class="fa fa-lg fa-cog"></i> Admin</a></li>
                     {% else %}
                         <li class="nav-item nav-hover"><a href="/login-signup"><i class="fa fa-lg fa-user"></i> Login/Sing-up</a></li>
                     {% endif %}
