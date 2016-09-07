@@ -17,6 +17,8 @@ from ..models.user import User
 from ..models.test_users import TEST_USERS
 from ..models.event import Event
 from ..models.events_dict import EVENTS
+from ..models.event import Pick
+from ..models.pick_dict import TEST_PICKS
 
 
 def usage(argv):
@@ -57,3 +59,10 @@ def main(argv=sys.argv):
                          away=entry["away"],
                          datetime=datetime.datetime.strptime(entry["datetime"], "%A %B %d %Y %H:%M"))
             dbsession.add(game)
+
+        for entry in TEST_PICKS:
+            pick = Pick(user_id=entry["user_id"],
+                        event_id=entry["event_id"],
+                        team=entry["team"],
+                        week=entry["week"])
+            dbsession.add(pick)
