@@ -34,11 +34,12 @@
                     <li class="nav-item"><a href="/about"><i class="fa fa-lg fa-info-circle"></i> About</a></li>
                     {% if request.authenticated_userid %}
                         <li class="nav-item"><a href="/pool"><i class="fa fa-lg fa-trophy"></i> Pool</a></li>
-                        <li class="nav-item"><a href="/week/1"><i class="fa fa-lg fa-check-square-o"></i> Pick</a></li>
+                        <li class="nav-item"><a href="pick/week1"><i class="fa fa-lg fa-check-square-o"></i> Pick</a></li>
                     {% endif %}
                 </ul>
                     <ul class="nav navbar-nav navbar-right">
                     {% if request.authenticated_userid %}
+                        <li class="nav-item">Welcome {{ request.authenticated_userid }}</li>
                         <li class="nav-item"><a href="/logout"><i class="fa fa-lg fa-sign-out"></i> Logout</a></li>
                         <li class="nav-item"><a href="/admin"><i class="fa fa-lg fa-cog"></i> Admin</a></li>
                     {% else %}

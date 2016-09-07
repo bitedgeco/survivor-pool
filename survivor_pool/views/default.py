@@ -46,7 +46,7 @@ def login_view(request):
     return {}
 
 
-@view_config(route_name='week', renderer='templates/pick.jinja2')
+@view_config(route_name='pick', renderer='templates/pick.jinja2')
 def week_view(request):
     from ..models.event import Event
     week = request.matchdict.get('week_num', None)
@@ -64,31 +64,6 @@ def week_view(request):
 
         new_pick = user_object._add_pick(game_object, user_input[0])
         request.dbsession.add(new_pick)
-        return HTTPFound(location=request.route_url('pick_test'))
-    else:
-        # determine current week
-        # perform appropriate db query for that week
-        # display events to user
-        return {}
-
-
-@view_config(route_name='pick', renderer='templates/pick.jinja2')
-def select_view(request):
-    from ..models.event import Event
-    if request.method == "GET":
-        week = 1
-        list_of_games = request.dbsession.query(Event).filter(Event.week == week)
-        return {"games": list_of_games, "week": week}
-    if request.method == "POST":
-        my_user = request.authenticated_userid
-        # import pdb; pdb.set_trace()
-        user_input = str(request.params['game']).split()
-        game_object = request.dbsession.query(Event).get(user_input[1])
-        user_object = request.dbsession.query(User).filter(User.username == my_user).one()
-
-        new_pick = user_object._add_pick(game_object, user_input[0])
-        request.dbsession.add(new_pick)
-        return HTTPFound(location=request.route_url('pick_test'))
     else:
         # determine current week
         # perform appropriate db query for that week

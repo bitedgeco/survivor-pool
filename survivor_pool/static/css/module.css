@@ -25,3 +25,7 @@ i {
     padding-top: 5rem;
     border-radius: 1rem;
 }
+
+#games_list {
+    list-style-type: none;
+}
