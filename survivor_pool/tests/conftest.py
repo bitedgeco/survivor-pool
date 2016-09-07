@@ -48,13 +48,13 @@ def sqlengine(request):
     return engine
 
 
-@pytest.fixture(scope="function")
-def testapp(sqlengine, TEST_DB_SETTINGS['sqlalchemy.url']):
-    '''Setup TestApp.'''
-    from survivor_pool import main
-    app = main({}, **DB_SETTINGS)
-    from webtest import TestApp
-    return TestApp(app)
+# @pytest.fixture(scope="function")
+# def testapp(sqlengine, TEST_DB_SETTINGS['sqlalchemy.url']):
+#     '''Setup TestApp.'''
+#     from survivor_pool import main
+#     app = main({}, **DB_SETTINGS)
+#     from webtest import TestApp
+#     return TestApp(app)
 
 
 @pytest.fixture(scope="function")
