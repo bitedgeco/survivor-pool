@@ -7,7 +7,7 @@
   opacity: 0.7;
 }
 
-.nav-item:hover {
+.nav-hover:hover {
     background-color: #eee;
 }
 
@@ -28,4 +28,9 @@ i {
 
 #games_list {
     list-style-type: none;
+}
+
+#welcome {
+    padding-top: 1.5rem;
+    color: #58ae82; 
 }

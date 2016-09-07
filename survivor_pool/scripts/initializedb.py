@@ -16,7 +16,7 @@ from ..models import (
 from ..models.user import User
 from ..models.test_users import TEST_USERS
 from ..models.event import Event
-from ..models.events import EVENTS
+from ..models.events_dict import EVENTS
 
 
 def usage(argv):

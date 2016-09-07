@@ -24,9 +24,10 @@ class User(Base):
     # def __repr__(self):
     #     return "user: {}".format(self.username)
 
-    def _add_pick(self, event_picked, team_picked):
+    def _add_pick(self, event_picked, team_picked, week):
         new_pick = Pick(team=team_picked)
         new_pick.event = event_picked
+        new_pick.week = week
         # self.event.append(new_pick)
         new_pick.user_list = self
         return new_pick

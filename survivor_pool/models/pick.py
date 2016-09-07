@@ -16,5 +16,6 @@ class Pick(Base):
     user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
     event_id = Column(Integer, ForeignKey('events.id'), primary_key=True)
     team = Column(Unicode)
+    week = Column(Integer)
     user_list = relationship("User", back_populates="event")
     event = relationship("Event", back_populates="user_list")
