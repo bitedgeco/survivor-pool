@@ -30,17 +30,9 @@ def admin_view(request):
             event_id = user_input_game[1]
             winner = user_input_game[0]
 
-            event_object = request.dbsession.query(Event).get(user_input[1]).first()
+            event_object = request.dbsession.query(Event).get(event_id).first()
             event_object.winner = winner
-
-            # week = int(user_input[2])
-
-            # existing_pick = request.dbsession.query(Pick).filter(User.username == my_user, Pick.week == week).first()
-            # if existing_pick:
-            #     # import pdb; pdb.set_trace()
-            #     request.dbsession.delete(existing_pick)
-            # new_pick = user_object._add_pick(game_object, user_input[0], week)
-            # request.dbsession.add(new_pick)
+            request.dbsession.update(new_pick)
 
         return {"games": list_of_games, "week": week}
 
