@@ -17,14 +17,18 @@ from ..models.meta import Base
 import os
 
 
-os.environ.get('TEST_DB_SETTINGS', '')
-# tests are expecting these two constants to be set in the testers environment
-# in the following format:
-# TEST_DB_SETTINGS = {'sqlalchemy.url': 'postgres://<<your_username_here>>@localhost:5432/test_survivor_pool'}
-# DATABASE_URL = 'postgres://james@localhost:5432/test_survivor_pool'
+TEST_DB_URL = os.environ.get('TEST_DB_URL', '')
+TEST_DB_SETTINGS = {'sqlalchemy.url': TEST_DB_URL}
 
-# @pytest.fixture(scope="session")
-# def setup_test_env():
+# tests are expecting TEST_DB_URL constant to be set in the testers environment
+# in the following format:
+# TEST_DB_URL="postgres://<<your_username_here>>@localhost:5432/test_survivor_pool"
+# you also need to run "createdb test_survivor_pool at the command line"
+
+
+@pytest.fixture(scope="session")
+def provide_test_url():
+    return TEST_DB_URL
 
 
 def dummy_request(new_session):
@@ -33,7 +37,7 @@ def dummy_request(new_session):
 
 @pytest.fixture(scope="function")
 def sqlengine(request):
-    config = testing.setUp(settings=DB_SETTINGS)
+    config = testing.setUp(settings=TEST_DB_SETTINGS)
     config.include("..models")
     settings = config.get_settings()
     engine = get_engine(settings)
@@ -48,13 +52,13 @@ def sqlengine(request):
     return engine
 
 
-# @pytest.fixture(scope="function")
-# def testapp(sqlengine, TEST_DB_SETTINGS['sqlalchemy.url']):
-#     '''Setup TestApp.'''
-#     from survivor_pool import main
-#     app = main({}, **DB_SETTINGS)
-#     from webtest import TestApp
-#     return TestApp(app)
+@pytest.fixture(scope="function")
+def testapp(sqlengine, provide_test_url):
+    '''Setup TestApp.'''
+    from survivor_pool import main
+    app = main({}, **TEST_DB_SETTINGS)
+    from webtest import TestApp
+    return TestApp(app)
 
 
 @pytest.fixture(scope="function")
