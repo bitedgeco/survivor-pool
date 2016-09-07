@@ -90,15 +90,6 @@ def pool_view(request):
     users = query.order_by(User.username).all()
     week = find_current_week(request)
     events = request.dbsession.query(Event).filter(Event.week == week)
-    # for user in users
-        #for event in events
-            # placeholder = event where user.events matches week`
     for user in users:
-        for pick in user.event:
-            for event in events:
-                if pick.event_id == event.id:
-                    pick.matching_event = event
-                    break
-
-    import pdb; pdb.set_trace()
+        user.teamname = user._get_pick_for_week(week)
     return {'users': users, "week": week, "events": events}

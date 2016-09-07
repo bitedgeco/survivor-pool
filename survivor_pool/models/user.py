@@ -32,7 +32,7 @@ class User(Base):
         new_pick.user_list = self
         return new_pick
 
-    def _pick_for_week(self, week):
+    def _get_pick_for_week(self, week):
         """Gets the name of the team picked in week.
 
         Returns team name or "user didn't pick" string if user didn't make

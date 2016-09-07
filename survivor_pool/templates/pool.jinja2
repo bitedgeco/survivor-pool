@@ -11,7 +11,7 @@
                     {% else %}
                         <p>{{ user.username }}</p>
                     {% endif %}
-                    <p>Week {{ week }} selection:  X</p>
+                    <p>Week {{ week }} selection: {{ user.teamname }}</p>
                 {% endif %}
             {% endfor %}
         </div>
@@ -24,7 +24,7 @@
                     {% else %}
                         <p>{{ user.username }}</p>
                     {% endif %}
-                    <p>Eliminated by selecting team X week #.</p>
+                    <p>Eliminated by selecting team {{ user.teamname }} week {{ week }}.</p>
                 {% endif %}
             {% endfor %}
         </div>
