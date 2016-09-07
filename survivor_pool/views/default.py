@@ -28,17 +28,16 @@ def admin_view(request):
         return {"games": list_of_games, "week": week}
     if request.method == 'POST':
         for game in request.params:
-            user_input = str(request.params[game]).split()
-            event_id = user_input_game[1]
-            winner = user_input_game[0]
-
-            event_object = request.dbsession.query(Event).get(event_id).first()
-            event_object.winner = winner
-            request.dbsession.update(new_pick)
+            # import pdb; pdb.set_trace()
+            if game != 'Save pick':
+                user_input = str(request.params[game]).split()
+                event_id = user_input[1]
+                winner = user_input[0]
+                event_object = request.dbsession.query(Event).filter(Event.id == event_id).first()
+                event_object.winner = winner
+                request.dbsession.add(event_object)
 
         return {"games": list_of_games, "week": week}
-
-
 
 
 @view_config(route_name='login-signup', renderer='templates/login-signup.jinja2', permission='public')
