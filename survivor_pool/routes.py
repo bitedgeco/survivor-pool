@@ -6,5 +6,5 @@ def includeme(config):
     config.add_route('login-signup', '/login-signup')
     config.add_route('logout', '/logout')
     config.add_route('pool', '/pool')
-    config.add_route('select', '/select')
+    config.add_route('pick', '/pick')
     config.add_route('pick_test', '/pick_test')

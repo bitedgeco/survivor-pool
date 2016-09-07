@@ -46,21 +46,22 @@ def login_view(request):
     return {}
 
 
-@view_config(route_name='select', renderer='templates/select.jinja2')
+@view_config(route_name='pick', renderer='templates/pick.jinja2')
 def select_view(request):
+    from ..models.event import Event
     if request.method == "GET":
-        # use the formfield to submit event.target element
-        # once we're got that element, get ahold of the week #
-        # perform db query for week #
-        # populate template with query results
-        return {}
+        list_of_games = request.dbsession.query(Event).filter(Event.week == 1)
+        return {"games": list_of_games}
     if request.method == "POST":
-        # use formfield to submit event.target element
-        # ID the element via data-value tag
-        # call _add_pick on the User identified from the header and passing in
-        # the correct event and home/away team
-        # redirect user to the same view again but reloaded with their pick
-        return {}
+        my_user = request.authenticated_userid
+        # import pdb; pdb.set_trace()
+        user_input = str(request.params['game']).split()
+        game_object = request.dbsession.query(Event).get(user_input[1])
+        user_object = request.dbsession.query(User).filter(User.username == my_user).one()
+
+        new_pick = user_object._add_pick(game_object, user_input[0])
+        request.dbsession.add(new_pick)
+        return HTTPFound(location=request.route_url('pick_test'))
     else:
         # determine current week
         # perform appropriate db query for that week
