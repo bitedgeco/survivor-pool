@@ -17,7 +17,7 @@ from ..models.user import User
 from ..models.test_users import TEST_USERS
 from ..models.event import Event
 from ..models.events_dict import EVENTS
-from ..models.event import Pick
+from ..models.pick import Pick
 from ..models.pick_dict import TEST_PICKS
 
 
