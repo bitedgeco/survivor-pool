@@ -1,23 +1,18 @@
 import os
 import sys
 import transaction
-
 import datetime
-
 from pyramid.paster import (
     get_appsettings,
     setup_logging,
 )
-
 from pyramid.scripts.common import parse_vars
-
 from ..models.meta import Base
 from ..models import (
     get_engine,
     get_session_factory,
     get_tm_session,
 )
-
 from ..models.user import User
 from ..models.test_users import TEST_USERS
 from ..models.event import Event
