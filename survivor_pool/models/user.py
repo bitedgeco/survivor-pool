@@ -24,8 +24,7 @@ class User(Base):
     # def __repr__(self):
     #     return "user: {}".format(self.username)
 
-    def _add_pick(self, event_picked, team_picked, request):
+    def _add_pick(self, event_picked, team_picked):
         new_pick = Pick(team=team_picked)
         new_pick.event = event_picked
         self.event.append(new_pick)
-        request.dbsession.add(new_pick)

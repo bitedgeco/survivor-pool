@@ -79,3 +79,20 @@ def pool_view(request):
     query = request.dbsession.query(User)
     participants = query.order_by(User.username).all()
     return {'participants': participants}
+
+
+@view_config(route_name="pick_test", renderer="templates/pick_test.jinja2", permission='public')
+def pick_test(request):
+    """This is just a test view, it'll be removed before production."""
+    from ..models.event import Event
+
+    if request.method == 'POST':
+        my_user = request.authenticated_userid
+        user_input = request.params.game.slice()
+        game_object = request.dbsession.query(Event).get(user_input[1])
+        new_pick = my_user._add_pick(game_object, user_input[0])
+        request.dbsession.add(new_pick)
+        return HTTPFound(location=request.route_url('pick_test'))
+    else:
+        game = request.dbsession.query(Event).first()
+        return {"game": game}
