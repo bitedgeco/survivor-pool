@@ -18,4 +18,5 @@ class Event(Base):
     datetime = Column(DateTime)
     home = Column(Text)
     away = Column(Text)
+    winner = Column(Text)
     user_list = relationship("Pick", back_populates="event")
