@@ -3,9 +3,21 @@ html {
     min-height: 100%;
 }
 
+h1 {
+    text-align: center;
+}
+
+.loginH1 {
+    text-align: left;
+}
+
 #content {
     padding-top: 6rem;
     padding-bottom: 6rem;
+}
+
+.paginationcentre {
+    text-align: center;
 }
 
 .panel-footer {
