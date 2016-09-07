@@ -9,7 +9,7 @@ from ..models import (
     get_tm_session,
 )
 from ..models.test_users import TEST_USERS
-from ..models.events import EVENTS
+from ..models.events_dict import EVENTS
 import datetime
 from pyramid import testing
 import pytest

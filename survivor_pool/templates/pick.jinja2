@@ -37,7 +37,7 @@
         <ul id="games_list">
             <h2>Week {{ week }}</h2>
             {% for game in games %}
-                <li>{{ game.home }} <input type="radio" name="game" value="home {{ game.id }}"> @ {{ game.away }} <input type="radio" name="game" value="away {{ game.id }}"></li>
+                <li>{{ game.home }} <input type="radio" name="game" value="home {{ game.id }} {{ week }}"> @ {{ game.away }} <input type="radio" name="game" value="away {{ game.id }} {{ week }}"></li>
                 <li>{{ game.datetime.strftime('%A %B %d, %Y %I:%M %p').lstrip("0").replace(" 0", " ")}}</li>
                 <br>
             {% endfor %}
