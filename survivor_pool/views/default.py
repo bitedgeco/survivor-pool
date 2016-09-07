@@ -19,7 +19,32 @@ def about_view(request):
 
 @view_config(route_name='admin', renderer='templates/admin.jinja2')
 def admin_view(request):
-    return {}
+    from ..models.event import Event
+    week = request.matchdict.get('week_num', None)
+    list_of_games = request.dbsession.query(Event).filter(Event.week == week)
+    if request.method == 'GET':
+        return {"games": list_of_games, "week": week}
+    if request.method == 'POST':
+        for game in request.params:
+            user_input = str(request.params[game]).split()
+            event_id = user_input_game[1]
+            winner = user_input_game[0]
+
+            event_object = request.dbsession.query(Event).get(user_input[1]).first()
+            event_object.winner = winner
+
+            # week = int(user_input[2])
+
+            # existing_pick = request.dbsession.query(Pick).filter(User.username == my_user, Pick.week == week).first()
+            # if existing_pick:
+            #     # import pdb; pdb.set_trace()
+            #     request.dbsession.delete(existing_pick)
+            # new_pick = user_object._add_pick(game_object, user_input[0], week)
+            # request.dbsession.add(new_pick)
+
+        return {"games": list_of_games, "week": week}
+
+
 
 
 @view_config(route_name='login-signup', renderer='templates/login-signup.jinja2', permission='public')
@@ -61,7 +86,6 @@ def week_view(request):
         return {"games": list_of_games, "week": week}
     if request.method == "POST":
         my_user = request.authenticated_userid
-        # import pdb; pdb.set_trace()
         user_input = str(request.params['game']).split()
         game_object = request.dbsession.query(Event).get(user_input[1])
         user_object = request.dbsession.query(User).filter(User.username == my_user).one()
