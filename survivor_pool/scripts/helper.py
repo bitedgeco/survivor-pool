@@ -11,7 +11,7 @@ def find_current_week(request, current_time=None):
     """This function returns the current week in the pool for which
     selections can still be made.
 
-    Optionaly, current_time can be keyworded for testing or demonstration
+    Option: current_time can be keyworded for testing or demonstration
     purposes."""
     current_week = 0
     if current_time is None:
