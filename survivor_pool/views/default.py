@@ -5,6 +5,8 @@ from pyramid.httpexceptions import HTTPFound
 from pyramid.security import remember, forget
 from ..models.user import User
 from ..models.pick import Pick
+from ..models.event import Event
+from ..scripts.helper import find_current_week
 
 
 @view_config(route_name='home', renderer='templates/home.jinja2', permission='public')
@@ -101,5 +103,9 @@ def logout(request):
 @view_config(route_name='pool', renderer='templates/pool.jinja2')
 def pool_view(request):
     query = request.dbsession.query(User)
-    participants = query.order_by(User.username).all()
-    return {'participants': participants}
+    users = query.order_by(User.username).all()
+    week = find_current_week(request) - 1
+    events = request.dbsession.query(Event).filter(Event.week == week)
+    for user in users:
+        user.teamname = user._get_pick_for_week(week)
+    return {'users': users, "week": week, "events": events}
