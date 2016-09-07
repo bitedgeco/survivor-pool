@@ -1,17 +1,18 @@
 {% extends "layout.jinja2" %}
 {% block body %}
     <h1>NFL 2016 pool</h1>
+    <h2>Prize pool: 1 Million Bitcoins!</h2>
     <div class='row'>
         <div class='col-md-6'>
             <h2>Surviving</h2>
             {% for user in users %}
                 {% if user.isalive %}
                     {% if request.authenticated_userid == user.username %}
-                        <p><b>{{ user.username }}</b></p>
+                        <p><b>{{ user.username }}</b><br>
                     {% else %}
-                        <p>{{ user.username }}</p>
+                        <p>{{ user.username }}<br>
                     {% endif %}
-                    <p>Week {{ week }} selection: {{ user.teamname }}</p>
+                    Week {{ week }} selection: {{ user.teamname }}</p>
                 {% endif %}
             {% endfor %}
         </div>
@@ -24,7 +25,6 @@
                     {% else %}
                         <p>{{ user.username }}</p>
                     {% endif %}
-                    <p>Eliminated by selecting team {{ user.teamname }} week {{ week }}.</p>
                 {% endif %}
             {% endfor %}
         </div>

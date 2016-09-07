@@ -36,6 +36,7 @@ def admin_view(request):
                 event_object = request.dbsession.query(Event).filter(Event.id == event_id).first()
                 event_object.winner = winner
                 request.dbsession.add(event_object)
+                
 
         return {"games": list_of_games, "week": week}
 
