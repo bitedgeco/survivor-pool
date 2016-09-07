@@ -4,29 +4,29 @@
 <nav aria-label="Page navigation">
   <ul class="pagination">
     <li>
-      <a href="#" aria-label="Previous">
+      <a href="{{ request.route_url('pick', week_num=(week|int - 1)) }}" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
-    <li><a href="{{ request.route_url('week', week_num=1) }}">1</a></li>
-    <li><a href="{{ request.route_url('week', week_num=2) }}">2</a></li>
-    <li><a href="{{ request.route_url('week', week_num=3) }}">3</a></li>
-    <li><a href="{{ request.route_url('week', week_num=4) }}">4</a></li>
-    <li><a href="{{ request.route_url('week', week_num=5) }}">5</a></li>
-    <li><a href="{{ request.route_url('week', week_num=6) }}">6</a></li>
-    <li><a href="{{ request.route_url('week', week_num=7) }}">7</a></li>
-    <li><a href="{{ request.route_url('week', week_num=8) }}">8</a></li>
-    <li><a href="{{ request.route_url('week', week_num=9) }}">9</a></li>
-    <li><a href="{{ request.route_url('week', week_num=10) }}">10</a></li>
-    <li><a href="{{ request.route_url('week', week_num=11) }}">11</a></li>
-    <li><a href="{{ request.route_url('week', week_num=12) }}">12</a></li>
-    <li><a href="{{ request.route_url('week', week_num=13) }}">13</a></li>
-    <li><a href="{{ request.route_url('week', week_num=14) }}">14</a></li>
-    <li><a href="{{ request.route_url('week', week_num=15) }}">15</a></li>
-    <li><a href="{{ request.route_url('week', week_num=16) }}">16</a></li>
-    <li><a href="{{ request.route_url('week', week_num=17) }}">17</a></li>
+    <li><a href="{{ request.route_url('pick', week_num=1) }}">1</a></li>
+    <li><a href="{{ request.route_url('pick', week_num=2) }}">2</a></li>
+    <li><a href="{{ request.route_url('pick', week_num=3) }}">3</a></li>
+    <li><a href="{{ request.route_url('pick', week_num=4) }}">4</a></li>
+    <li><a href="{{ request.route_url('pick', week_num=5) }}">5</a></li>
+    <li><a href="{{ request.route_url('pick', week_num=6) }}">6</a></li>
+    <li><a href="{{ request.route_url('pick', week_num=7) }}">7</a></li>
+    <li><a href="{{ request.route_url('pick', week_num=8) }}">8</a></li>
+    <li><a href="{{ request.route_url('pick', week_num=9) }}">9</a></li>
+    <li><a href="{{ request.route_url('pick', week_num=10) }}">10</a></li>
+    <li><a href="{{ request.route_url('pick', week_num=11) }}">11</a></li>
+    <li><a href="{{ request.route_url('pick', week_num=12) }}">12</a></li>
+    <li><a href="{{ request.route_url('pick', week_num=13) }}">13</a></li>
+    <li><a href="{{ request.route_url('pick', week_num=14) }}">14</a></li>
+    <li><a href="{{ request.route_url('pick', week_num=15) }}">15</a></li>
+    <li><a href="{{ request.route_url('pick', week_num=16) }}">16</a></li>
+    <li><a href="{{ request.route_url('pick', week_num=17) }}">17</a></li>
     <li>
-      <a href="#" aria-label="Next">
+      <a href="{{ request.route_url('pick', week_num=(week|int + 1)) }}" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
       </a>
     </li>
@@ -34,18 +34,15 @@
 </nav>
 
     <form class="pick-group" action="" method="POST">
-    <ul>
-        <h2>Week #{{ week }}</h2>
-        {% for game in games %}
-            <li>{{ game.datetime }}
-                <ul>
-                {{ datetime }}
-                    <li>Home: {{ game.home }}<input type="radio" name="game" value="home {{ game.id }}"> </li>
-                    <li>Away: {{ game.away }}<input type="radio" name="game" value="away {{ game.id }}"></li>
-                </ul>
-            </li>
-        {% endfor %}
-        <button class="btn btn-default" type="submit" name="Make_Pick"/>Make Pick <i class="fa fa-lg fa-check-square-o"></i> </button>
+        <ul id="games_list">
+            <h2>Week {{ week }}</h2>
+            {% for game in games %}
+                <li>{{ game.home }} <input type="radio" name="game" value="home {{ game.id }}"> @ {{ game.away }} <input type="radio" name="game" value="away {{ game.id }}"></li>
+                <li>{{ game.datetime.strftime('%A %B %d, %Y %I:%M %p').lstrip("0").replace(" 0", " ")}}</li>
+                <br>
+            {% endfor %}
+            <button class="btn btn-default" type="submit" name="Save pick"/>Save pick <i class="fa fa-lg fa-floppy-o"></i> </button>
+        </ul>
     </form>
-    </ul>
+    
 {% endblock %}
