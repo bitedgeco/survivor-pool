@@ -14,14 +14,17 @@ import datetime
 from pyramid import testing
 import pytest
 from ..models.meta import Base
+import os
 
 
-DB_SETTINGS = {'sqlalchemy.url': 'postgres://james@localhost:5432/test_survivor_pool'}
+os.environ.get('TEST_DB_SETTINGS', '')
+# tests are expecting these two constants to be set in the testers environment
+# in the following format:
+# TEST_DB_SETTINGS = {'sqlalchemy.url': 'postgres://<<your_username_here>>@localhost:5432/test_survivor_pool'}
+# DATABASE_URL = 'postgres://james@localhost:5432/test_survivor_pool'
 
-
-@pytest.fixture(scope="session")
-def setup_test_env():
-    DATABASE_URL = 'postgres://james@localhost:5432/test_survivor_pool'
+# @pytest.fixture(scope="session")
+# def setup_test_env():
 
 
 def dummy_request(new_session):
@@ -45,13 +48,13 @@ def sqlengine(request):
     return engine
 
 
-@pytest.fixture()
-def testapp(sqlengine, setup_test_env):
-    '''Setup TestApp.'''
-    from survivor_pool import main
-    app = main({}, **DB_SETTINGS)
-    from webtest import TestApp
-    return TestApp(app)
+# @pytest.fixture(scope="function")
+# def testapp(sqlengine, TEST_DB_SETTINGS['sqlalchemy.url']):
+#     '''Setup TestApp.'''
+#     from survivor_pool import main
+#     app = main({}, **DB_SETTINGS)
+#     from webtest import TestApp
+#     return TestApp(app)
 
 
 @pytest.fixture(scope="function")
