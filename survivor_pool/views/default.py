@@ -88,7 +88,7 @@ def logout(request):
 def pool_view(request):
     query = request.dbsession.query(User)
     users = query.order_by(User.username).all()
-    week = find_current_week(request)
+    week = find_current_week(request) - 1
     events = request.dbsession.query(Event).filter(Event.week == week)
     for user in users:
         user.teamname = user._get_pick_for_week(week)
