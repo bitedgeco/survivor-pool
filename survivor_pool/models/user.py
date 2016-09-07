@@ -27,4 +27,6 @@ class User(Base):
     def _add_pick(self, event_picked, team_picked):
         new_pick = Pick(team=team_picked)
         new_pick.event = event_picked
-        self.event.append(new_pick)
+        # self.event.append(new_pick)
+        new_pick.user_list = self
+        return new_pick

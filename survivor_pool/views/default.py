@@ -87,10 +87,14 @@ def pick_test(request):
     from ..models.event import Event
 
     if request.method == 'POST':
+        import pdb; pdb.set_trace()
         my_user = request.authenticated_userid
-        user_input = request.params.game.slice()
+        # import pdb; pdb.set_trace()
+        user_input = str(request.params['game']).split()
         game_object = request.dbsession.query(Event).get(user_input[1])
-        new_pick = my_user._add_pick(game_object, user_input[0])
+        user_object = request.dbsession.query(User).filter(User.username == my_user).one()
+
+        new_pick = user_object._add_pick(game_object, user_input[0])
         request.dbsession.add(new_pick)
         return HTTPFound(location=request.route_url('pick_test'))
     else:
