@@ -20,6 +20,8 @@ import pytest
 from ..models.meta import Base
 import os
 
+from passlib.apps import custom_app_context as pwd_context
+
 
 TEST_DB_URL = os.environ.get('TEST_DB_URL', '')
 TEST_DB_SETTINGS = {'sqlalchemy.url': TEST_DB_URL}
@@ -63,6 +65,46 @@ def testapp(sqlengine, provide_test_url):
     app = main({}, **TEST_DB_SETTINGS)
     from webtest import TestApp
     return TestApp(app)
+
+
+@pytest.fixture(scope='session')
+def auth_env():
+    username = 'Bob Barker'
+    password = 'password'
+    os.environ['AUTH_USERNAME'] = username
+    os.environ['AUTH_PASSWORD'] = pwd_context.encrypt(password)
+    return username, password
+
+
+@pytest.fixture(scope='function')
+def auth_app(testapp, auth_env):
+    username, password = auth_env
+    auth_data = {
+        'username': username,
+        'password': password
+    }
+    testapp.post('/login-signup', auth_data)
+    return testapp
+
+
+@pytest.fixture(scope='session')
+def admin_env():
+    username = 'Zach'
+    password = 'laptop'
+    os.environ['AUTH_USERNAME'] = username
+    os.environ['AUTH_PASSWORD'] = pwd_context.encrypt(password)
+    return username, password
+
+
+@pytest.fixture(scope='function')
+def admin_app(testapp, admin_env):
+    username, password = admin_env
+    auth_data = {
+        'username': username,
+        'password': password
+    }
+    testapp.post('/login-signup', auth_data)
+    return testapp
 
 
 @pytest.fixture(scope="function")

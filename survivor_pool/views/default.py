@@ -20,7 +20,7 @@ def about_view(request):
     return {}
 
 
-@view_config(route_name='admin', renderer='templates/admin.jinja2')
+@view_config(route_name='admin', renderer='templates/admin.jinja2', permission='admin')
 def admin_view(request):
     from ..models.event import Event
     week = request.matchdict.get('week_num', None)
@@ -111,9 +111,3 @@ def pool_view(request):
         user.teamname = user._get_pick_for_week(week)
     return {'users': users, "week": week, "events": events}
 
-
-@view_config(route_name='test-teams', renderer='templates/test-teams.jinja2')
-def test_teams_view(request):
-    from ..models.team import Team
-    list_of_teams = request.dbsession.query(Team).all()
-    return {"teams": list_of_teams}

@@ -18,10 +18,10 @@ class UserAuth(object):
             (Allow, Everyone, 'public'),
             (Allow, Authenticated, 'private'),
         ]
-        # if self.request.authenticate_userid:
-        #     this_user = self.request.dbsession.query(User).filter(username=self.request.authenticate_userid).first()
-        #     if this_user.isadmin:
-        #         this_acl.append((Allow, self.request.authenticate_userid, 'admin'))
+        if self.request.authenticated_userid:
+            this_user = self.request.dbsession.query(User).filter(User.username == self.request.authenticated_userid).first()
+            if this_user.isadmin:
+                this_acl.append((Allow, self.request.authenticated_userid, 'admin'))
         return this_acl
 
 
