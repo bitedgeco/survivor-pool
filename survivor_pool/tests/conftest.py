@@ -70,6 +70,10 @@ def new_session(sqlengine, request):
     session_factory = get_session_factory(sqlengine)
     session = get_tm_session(session_factory, transaction.manager)
 
+    with transaction.manager:
+        dbsession = get_tm_session(session_factory, transaction.manager)
+    session.dbsession = dbsession
+
     def teardown():
         transaction.abort()
 
@@ -96,7 +100,8 @@ def populated_db(request, sqlengine):
             game = Event(week=entry["week"],
                          home=entry["home"],
                          away=entry["away"],
-                         datetime=datetime.datetime.strptime(entry["datetime"], "%A %B %d %Y %H:%M"))
+                         datetime=datetime.datetime.strptime(entry["datetime"], "%A %B %d %Y %H:%M"),
+                         winner=entry["winner"])
             dbsession.add(game)
 
         for entry in TEST_PICK_DICT:
@@ -108,6 +113,7 @@ def populated_db(request, sqlengine):
 
     def teardown():
         with transaction.manager:
+            session.query(Pick).delete()
             session.query(User).delete()
             session.query(Event).delete()
     request.addfinalizer(teardown)
