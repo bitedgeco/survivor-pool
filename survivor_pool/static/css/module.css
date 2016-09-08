@@ -35,7 +35,8 @@ i {
     color: #58ae82; 
 }
 
-.not-active {
-   pointer-events: none;
+
+.team {
+    font-size: 18px;
 }
 
