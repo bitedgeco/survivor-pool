@@ -19,6 +19,8 @@ from ..models.event import Event
 from ..models.events_dict import EVENTS
 from ..models.pick import Pick
 from ..models.pick_dict import TEST_PICKS
+from ..models.team import Team
+from ..models.teams_dict import TEAMS
 
 
 def usage(argv):
@@ -66,3 +68,9 @@ def main(argv=sys.argv):
                         team=entry["team"],
                         week=entry["week"])
             dbsession.add(pick)
+
+        for entry in TEAMS:
+            team = Team(name=entry["name"],
+                        bye_week=entry["bye_week"],
+                        icon=entry["icon"])
+            dbsession.add(team)
