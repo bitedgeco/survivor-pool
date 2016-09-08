@@ -68,7 +68,12 @@ def login_view(request):
 @view_config(route_name='pick', renderer='templates/pick.jinja2')
 def week_view(request):
     from ..models.event import Event
-    week = request.matchdict.get('week_num', None)
+    week = int(request.matchdict.get('week_num', None))
+    #import pdb; pdb.set_trace()
+    if week < 1 or week > 17:
+        current_week = find_current_week(request)
+        return HTTPFound(location=request.route_url('pick', week_num=current_week))
+
     list_of_games = request.dbsession.query(Event).filter(Event.week == week)
     if request.method == "GET":
         return {"games": list_of_games, "week": week}
@@ -83,7 +88,8 @@ def week_view(request):
             request.dbsession.delete(existing_pick)
         new_pick = user_object._add_pick(game_object, user_input[0], week)
         request.dbsession.add(new_pick)
-        return {"games": list_of_games, "week": week}
+        current_week = find_current_week(request)
+        return {"games": list_of_games, "week": week, "current_week": current_week}
 
 
 @view_config(route_name='logout')
