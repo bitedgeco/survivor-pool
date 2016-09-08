@@ -37,11 +37,11 @@
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="nav-item nav-hover" id='nav-home'><a href="/"><i class="fa fa-lg fa-home"></i> Home</a></li>
-                    <li class="nav-item nav-hover" id='nav-about'><a href="/about"><i class="fa fa-lg fa-info-circle"></i> About</a></li>
                     {% if request.authenticated_userid %}
                         <li class="nav-item nav-hover" id='nav-pool'><a href="/pool"><i class="fa fa-lg fa-trophy"></i> Pool</a></li>
                         <li class="nav-item nav-hover" id='nav-pick'><a href="pick/week1"><i class="fa fa-lg fa-check-square-o"></i> Pick</a></li>
                     {% endif %}
+                    <li class="nav-item nav-hover" id='nav-about'><a href="/about"><i class="fa fa-lg fa-info-circle"></i> About</a></li>
                 </ul>
                     <ul class="nav navbar-nav navbar-right">
                     {% if request.authenticated_userid %}
