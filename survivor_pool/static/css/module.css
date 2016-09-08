@@ -34,3 +34,8 @@ i {
     padding-top: 1.5rem;
     color: #58ae82; 
 }
+
+.not-active {
+   pointer-events: none;
+}
+
