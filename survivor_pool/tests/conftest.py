@@ -4,12 +4,16 @@ import transaction
 from ..models import (
     User,
     Event,
+    Pick,
     get_engine,
     get_session_factory,
     get_tm_session,
 )
-from ..models.test_users import TEST_USERS
-from ..models.events_dict import EVENTS
+
+from .test_event_dict import TEST_EVENT_DICT
+from .test_pick_dict import TEST_PICK_DICT
+from .test_user_dict import TEST_USER_DICT
+
 import datetime
 from pyramid import testing
 import pytest
@@ -81,19 +85,26 @@ def populated_db(request, sqlengine):
     with transaction.manager:
         dbsession = get_tm_session(session_factory, transaction.manager)
 
-        for entry in TEST_USERS:
+        for entry in TEST_USER_DICT:
             temp = User(username=entry["username"],
                         password=entry["password"],
                         isadmin=entry["isadmin"],
                         isalive=entry["isalive"])
             dbsession.add(temp)
 
-        for entry in EVENTS:
+        for entry in TEST_EVENT_DICT:
             game = Event(week=entry["week"],
                          home=entry["home"],
                          away=entry["away"],
                          datetime=datetime.datetime.strptime(entry["datetime"], "%A %B %d %Y %H:%M"))
             dbsession.add(game)
+
+        for entry in TEST_PICK_DICT:
+            pick = Pick(user_id=entry["user_id"],
+                        event_id=entry["event_id"],
+                        team=entry["team"],
+                        week=entry["week"])
+            dbsession.add(pick)
 
     def teardown():
         with transaction.manager:
