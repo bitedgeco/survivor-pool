@@ -30,7 +30,6 @@ class User(Base):
 
     def _get_pick_for_week(self, week):
         """Gets the name of the team picked in week.
-
         Returns team name or "user didn't pick" string if user didn't make
         a selection for that week.
         """

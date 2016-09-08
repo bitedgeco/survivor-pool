@@ -77,9 +77,10 @@ def login_view(request):
 
 @view_config(route_name='pick', renderer='templates/pick.jinja2')
 def week_view(request):
+    from ..models.team import Team
     from ..models.event import Event
     import json
-
+    list_of_teams = request.dbsession.query(Team).all()
     week = int(request.matchdict.get('week_num', None))
     if week < 1 or week > 17:
         current_week = find_current_week(request)
@@ -97,7 +98,7 @@ def week_view(request):
         game._home = classable_text_conversion(game.home)
 
     if request.method == "GET":
-        return {"games": list_of_games, "week": week, "past_picks": json.dumps(past_picks)}
+        return {"games": list_of_games, "week": week, "past_picks": json.dumps(past_picks), "teams": list_of_teams, "past_full": unformatted_past_picks}
 
     if request.method == "POST":
         user_input = str(request.params['game']).split()
@@ -110,7 +111,7 @@ def week_view(request):
         request.dbsession.add(new_pick)
         current_week = find_current_week(request)
         return {"games": list_of_games, "week": week,
-                "current_week": current_week, "past_picks": json.dumps(past_picks)}
+                "current_week": current_week, "past_picks": json.dumps(past_picks), "teams": list_of_teams}
 
 
 @view_config(route_name='logout')
