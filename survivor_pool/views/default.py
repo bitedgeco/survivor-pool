@@ -30,20 +30,24 @@ def admin_view(request):
     list_of_games = request.dbsession.query(Event).filter(Event.week == week)
     current_week = find_current_week(request)
     if request.method == 'GET':
-        # import pdb; pdb.set_trace()
         return {"games": list_of_games, "week": week, "teams": list_of_teams}
     if request.method == 'POST':
-        for game in request.params:
-            if game != 'Save pick':
-                user_input = str(request.params[game]).split()
-                event_id = user_input[1]
-                winner = user_input[0]
-                event_object = request.dbsession.query(Event).filter(Event.id == event_id).first()
-                event_object.winner = winner
-                request.dbsession.add(event_object)
+        admin_view_post_helper(request)
         for game in list_of_games:
             game._resolve_week()
         return {"games": list_of_games, "week": week, "current_week": current_week, "teams": list_of_teams}
+
+
+def admin_view_post_helper(request):
+    """Update database when admin results weeks games."""
+    for game in request.params:
+        if game != 'Save pick':
+            user_input = str(request.params[game]).split()
+            event_id = user_input[1]
+            winner = user_input[0]
+            event_object = request.dbsession.query(Event).filter(Event.id == event_id).first()
+            event_object.winner = winner
+            request.dbsession.add(event_object)
 
 
 @view_config(route_name='login-signup', renderer='templates/login-signup.jinja2', permission='public')
