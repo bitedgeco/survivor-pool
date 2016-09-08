@@ -11,7 +11,8 @@ from ..scripts.helper import find_current_week
 
 @view_config(route_name='home', renderer='templates/home.jinja2', permission='public')
 def home_view(request):
-    return {}
+    current_week = find_current_week(request)
+    return {"current_week": current_week}
 
 
 @view_config(route_name='about', renderer='templates/about.jinja2', permission='public')
@@ -24,6 +25,7 @@ def admin_view(request):
     from ..models.event import Event
     week = request.matchdict.get('week_num', None)
     list_of_games = request.dbsession.query(Event).filter(Event.week == week)
+    current_week = find_current_week(request)
     if request.method == 'GET':
         return {"games": list_of_games, "week": week}
     if request.method == 'POST':
@@ -37,7 +39,7 @@ def admin_view(request):
                 request.dbsession.add(event_object)
         for game in list_of_games:
             game._resolve_week()
-        return {"games": list_of_games, "week": week}
+        return {"games": list_of_games, "week": week, "current_week": current_week}
 
 
 @view_config(route_name='login-signup', renderer='templates/login-signup.jinja2', permission='public')
