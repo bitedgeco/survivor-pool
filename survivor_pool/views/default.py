@@ -21,7 +21,7 @@ def about_view(request):
     return {}
 
 
-@view_config(route_name='admin', renderer='templates/admin.jinja2')
+@view_config(route_name='admin', renderer='templates/admin.jinja2', permission='admin')
 def admin_view(request):
     from ..models.team import Team
     from ..models.event import Event

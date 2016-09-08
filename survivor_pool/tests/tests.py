@@ -131,3 +131,28 @@ def test_security_check_credentials_error(testapp, new_session, populated_db):
     passes a ValueError."""
     from ..security import check_credentials
     assert check_credentials(new_session, "Bob Barker", "") is False
+
+
+# -----Security tests--------
+
+def test_private_view_accessible(auth_app):
+    """Test if authenticated app can access restricted page."""
+    response = auth_app.get('/pick/week1', status=200)
+    assert b'Seahawks' in response.body
+
+
+def test_admin_view_inaccessible(auth_app):
+    """Test if an authenticated user gets redirected at the admin page."""
+    response = auth_app.get('/admin/week1', status='3*')
+    assert response.status_code == 302
+
+def test_private_view_accessible_admin(admin_app):
+    """Test if admin app can access restricted page."""
+    response = admin_app.get('/pick/week1', status=200)
+    assert b'Seahawks' in response.body
+
+
+def test_admin_view_accessible_for_admin(admin_app):
+    """Test if an admin has access to the admin pages."""
+    response = admin_app.get('/admin/week1', status=200)
+    assert b'Seahawks' in response.body
