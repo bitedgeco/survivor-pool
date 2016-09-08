@@ -36,7 +36,7 @@ def test_logout_redirect(testapp):
 
 def test_admin_redirect(testapp):
     '''Test redirect of non-logged in user from admin.'''
-    response = testapp.get('/admin', status='3*')
+    response = testapp.get('/admin/week1', status='3*')
     assert response.status_code == 302
 
 
@@ -46,7 +46,7 @@ def test_pool_redirect(testapp):
     assert response.status_code == 302
 
 
-def test_select_redirect(testapp):
+def test_pick_redirect(testapp):
     '''Test redirect of non-logged in user from select.'''
-    response = testapp.get('/select', status='3*')
+    response = testapp.get('/pick/week1', status='3*')
     assert response.status_code == 302
