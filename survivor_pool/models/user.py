@@ -40,3 +40,12 @@ class User(Base):
             return picked_name_in_list[0]
         except IndexError:
             return "User didn't pick a team for this week."
+
+    def _get_all_user_picks(self):
+        """Gets the team names of all previous picks the user has made and
+        returns the in a list."""
+        try:
+            list_of_picks = [getattr(pick.event, pick.team) for pick in self.event]
+            return list_of_picks
+        except IndexError:
+            return []

@@ -27,3 +27,10 @@ def find_current_week(request, current_time=None):
     else:
         current_week = None
     return current_week
+
+
+def classable_text_conversion(team_name):
+    """This function formats strings that are team names so they can be used
+    in jinja templates as class names and matched against reliably."""
+    new_team_name = team_name.lower().replace(" ", "_")
+    return new_team_name
