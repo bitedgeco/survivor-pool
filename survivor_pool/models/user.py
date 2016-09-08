@@ -21,14 +21,10 @@ class User(Base):
     isalive = Column(Boolean)
     event = relationship("Pick", back_populates="user_list")
 
-    # def __repr__(self):
-    #     return "user: {}".format(self.username)
-
     def _add_pick(self, event_picked, team_picked, week):
         new_pick = Pick(team=team_picked)
         new_pick.event = event_picked
         new_pick.week = week
-        # self.event.append(new_pick)
         new_pick.user_list = self
         return new_pick
 
@@ -44,3 +40,12 @@ class User(Base):
             return picked_name_in_list[0]
         except IndexError:
             return "User didn't pick a team for this week."
+
+    def _get_all_user_picks(self):
+        """Gets the team names of all previous picks the user has made and
+        returns the in a list."""
+        try:
+            list_of_picks = [getattr(pick.event, pick.team) for pick in self.event]
+            return list_of_picks
+        except IndexError:
+            return []

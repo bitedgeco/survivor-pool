@@ -10,7 +10,7 @@ from .meta import Base
 
 
 class Team(Base):
-    __tablename__ = 'events'
+    __tablename__ = 'teams'
     id = Column(Integer, primary_key=True)
     name = Column(Text)
     bye_week = Column(Integer)
