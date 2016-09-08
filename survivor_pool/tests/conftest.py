@@ -37,6 +37,7 @@ def provide_test_url():
     return TEST_DB_URL
 
 
+@pytest.fixture()
 def dummy_request(new_session):
     return testing.DummyRequest(dbsession=new_session)
 
@@ -111,10 +112,6 @@ def admin_app(testapp, admin_env):
 def new_session(sqlengine, request):
     session_factory = get_session_factory(sqlengine)
     session = get_tm_session(session_factory, transaction.manager)
-
-    with transaction.manager:
-        dbsession = get_tm_session(session_factory, transaction.manager)
-    session.dbsession = dbsession
 
     def teardown():
         transaction.abort()
