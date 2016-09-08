@@ -85,7 +85,8 @@ def week_view(request):
         game_object = request.dbsession.query(Event).get(user_input[1])
         user_object = request.dbsession.query(User).filter(User.username == my_user).one()
         week = int(user_input[2])
-        existing_pick = request.dbsession.query(Pick).filter(User.username == my_user, Pick.week == week).first()
+        existing_pick = request.dbsession.query(Pick).filter(Pick.user_id == user_object.id, Pick.week == week).first()
+        # import pdb; pdb.set_trace()
         if existing_pick:
             request.dbsession.delete(existing_pick)
         new_pick = user_object._add_pick(game_object, user_input[0], week)
