@@ -7,8 +7,8 @@
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
-            {% for n in range(17) %}
-                <li><a href="{{ request.route_url('pick', week_num=n+1) }}">{{ n+1 }}</a></li>
+            {% for n in range(18-current_week) %}
+                <li><a href="{{ request.route_url('pick', week_num=n+current_week) }}">{{ n+current_week }}</a></li>
             {% endfor %}
             <li {% if week == 17 %}class="disabled"{% endif %}>
                 <a href="{{ request.route_url('pick', week_num=(week|int + 1)) }}" aria-label="Next">

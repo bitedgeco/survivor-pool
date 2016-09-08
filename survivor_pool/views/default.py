@@ -98,7 +98,7 @@ def week_view(request):
         game._home = classable_text_conversion(game.home)
 
     if request.method == "GET":
-        return {"games": list_of_games, "week": week, "past_picks": json.dumps(past_picks), "teams": list_of_teams, "past_full": unformatted_past_picks}
+        return {"games": list_of_games, "week": week, "current_week": current_week, "past_picks": json.dumps(past_picks), "teams": list_of_teams, "past_full": unformatted_past_picks}
 
     if request.method == "POST":
         user_input = str(request.params['game']).split()
