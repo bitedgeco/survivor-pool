@@ -30,3 +30,11 @@ h1 {
     width: 100%;
     text-align: center
 }
+
+.each_game {
+    padding: 1rem;
+}
+
+.each_game li {
+    list-style-type: none;
+}
