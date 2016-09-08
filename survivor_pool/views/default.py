@@ -7,6 +7,7 @@ from ..models.user import User
 from ..models.pick import Pick
 from ..models.event import Event
 from ..scripts.helper import find_current_week
+from ..scripts.helper import classable_text_conversion
 
 
 @view_config(route_name='home', renderer='templates/home.jinja2', permission='public')
@@ -22,12 +23,15 @@ def about_view(request):
 
 @view_config(route_name='admin', renderer='templates/admin.jinja2', permission='admin')
 def admin_view(request):
+    from ..models.team import Team
     from ..models.event import Event
+    list_of_teams = request.dbsession.query(Team).all()
     week = request.matchdict.get('week_num', None)
     list_of_games = request.dbsession.query(Event).filter(Event.week == week)
     current_week = find_current_week(request)
     if request.method == 'GET':
-        return {"games": list_of_games, "week": week}
+        # import pdb; pdb.set_trace()
+        return {"games": list_of_games, "week": week, "teams": list_of_teams}
     if request.method == 'POST':
         for game in request.params:
             if game != 'Save pick':
@@ -39,7 +43,7 @@ def admin_view(request):
                 request.dbsession.add(event_object)
         for game in list_of_games:
             game._resolve_week()
-        return {"games": list_of_games, "week": week, "current_week": current_week}
+        return {"games": list_of_games, "week": week, "current_week": current_week, "teams": list_of_teams}
 
 
 @view_config(route_name='login-signup', renderer='templates/login-signup.jinja2', permission='public')
@@ -70,29 +74,39 @@ def login_view(request):
 @view_config(route_name='pick', renderer='templates/pick.jinja2')
 def week_view(request):
     from ..models.event import Event
+    import json
+
     week = int(request.matchdict.get('week_num', None))
-    #import pdb; pdb.set_trace()
     if week < 1 or week > 17:
         current_week = find_current_week(request)
         return HTTPFound(location=request.route_url('pick', week_num=current_week))
 
-    list_of_games = request.dbsession.query(Event).filter(Event.week == week)
+    my_user = request.authenticated_userid
+    user_object = request.dbsession.query(User).filter(User.username == my_user).one()
+    unformatted_past_picks = user_object._get_all_user_picks()
+    past_picks = []
+    for pick in unformatted_past_picks:
+        past_picks.append(classable_text_conversion(pick))
+    list_of_games = request.dbsession.query(Event).filter(Event.week == week).all()
+    for game in list_of_games:
+        game._away = classable_text_conversion(game.away)
+        game._home = classable_text_conversion(game.home)
+
     if request.method == "GET":
-        return {"games": list_of_games, "week": week}
+        return {"games": list_of_games, "week": week, "past_picks": json.dumps(past_picks)}
+
     if request.method == "POST":
-        my_user = request.authenticated_userid
         user_input = str(request.params['game']).split()
         game_object = request.dbsession.query(Event).get(user_input[1])
-        user_object = request.dbsession.query(User).filter(User.username == my_user).one()
         week = int(user_input[2])
         existing_pick = request.dbsession.query(Pick).filter(Pick.user_id == user_object.id, Pick.week == week).first()
-        # import pdb; pdb.set_trace()
         if existing_pick:
             request.dbsession.delete(existing_pick)
         new_pick = user_object._add_pick(game_object, user_input[0], week)
         request.dbsession.add(new_pick)
         current_week = find_current_week(request)
-        return {"games": list_of_games, "week": week, "current_week": current_week}
+        return {"games": list_of_games, "week": week,
+                "current_week": current_week, "past_picks": json.dumps(past_picks)}
 
 
 @view_config(route_name='logout')
@@ -110,4 +124,3 @@ def pool_view(request):
     for user in users:
         user.teamname = user._get_pick_for_week(week)
     return {'users': users, "week": week, "events": events}
-

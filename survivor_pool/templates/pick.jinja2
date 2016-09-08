@@ -1,35 +1,51 @@
 {% extends "layout.jinja2" %}
 {% block body %}
-
-<nav class="paginationcentre" aria-label="Page navigation">
-  <ul class="pagination">
-    <li {% if week == 1 %}class="disabled"{% endif %}>
-      <a href="{{ request.route_url('pick', week_num=(week|int - 1)) }}" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
-      </a>
-    </li>
-
-    {% for n in range(17) %}
+  <nav class="paginationcentre" aria-label="Page navigation">
+    <ul class="pagination">
+      <li {% if week == 1 %}class="disabled"{% endif %}>
+        <a href="{{ request.route_url('pick', week_num=(week|int - 1)) }}" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      {% for n in range(17) %}
         <li><a href="{{ request.route_url('pick', week_num=n+1) }}">{{ n+1 }}</a></li>
-    {% endfor %}
-    <li {% if week == 17 %}class="disabled"{% endif %}>
-      <a href="{{ request.route_url('pick', week_num=(week|int + 1)) }}" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-      </a>
-    </li>
-  </ul>
-</nav>
-
-    <form class="pick-group" action="" method="POST">
-        <ul id="games_list">
-            <h2>Week {{ week }}</h2>
-            {% for game in games %}
-                <li><span class="team"> {{ game.away }} <input type="radio" name="game" value="away {{ game.id }} {{ week }}"></span> <span class="team"> @ {{ game.home }} <input type="radio" name="game" value="home {{ game.id }} {{ week }}"></span></li>
-                <li>{{ game.datetime.strftime('%A %B %d, %Y %I:%M %p').lstrip("0").replace(" 0", " ")}}</li>
-                <br>
-            {% endfor %}
-            <button class="btn btn-default" type="submit" name="Save pick"/><i class="fa fa-lg fa-floppy-o"></i> Save pick</button>
+      {% endfor %}
+      <li {% if week == 17 %}class="disabled"{% endif %}>
+        <a href="{{ request.route_url('pick', week_num=(week|int + 1)) }}" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <form class="pick-group" action="" method="POST">
+    <ul id="games_list">
+      <h2>Week {{ week }}</h2>
+      {% for game in games %}
+        <ul class="each_game">
+          <li>
+            <span class="team">{{ game.away }}<input id="{{game._away}}" class="game_radio" type="radio" name="game" value="away {{ game.id }} {{ week }}"></span>
+          </li>
+          <li>@</li>
+          <li>
+            <span class="team">{{ game.home }}<input id="{{game._home}}" class="game_radio" type="radio" name="game" value="home {{ game.id }} {{ week }}"></span>
+          </li>
+          <li>{{ game.datetime.strftime('%A %B %d, %Y %I:%M %p').lstrip("0").replace(" 0", " ")}}</li>
         </ul>
     </form>
-    
+
+      {% endfor %}
+      <button class="btn btn-default" type="submit" name="Save pick"/><i class="fa fa-lg fa-floppy-o"></i> Save pick</button>
+    </ul>
+  </form>
+  THESE ARE PAST PICKS: {{ past_picks }}
+  <script>
+    var past_picks = JSON.parse('{{past_picks|safe}}');
+    for(var i = 0; i < past_picks.length; i++) {
+      $('#' + past_picks[i] + '').prop("disabled", true);
+    }
+
+  </script>
+  <script type="text/javascript">
+    $('#nav-pick').css('border-bottom', '2px solid #58ae82');
+  </script>
 {% endblock %}

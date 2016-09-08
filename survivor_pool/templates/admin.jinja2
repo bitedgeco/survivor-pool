@@ -1,35 +1,59 @@
 {% extends "layout.jinja2" %}
 {% block body %}
 
-<nav class="paginationcentre" aria-label="Page navigation">
-  <ul class="pagination">
-    <li {% if week == 1 %}class="disabled"{% endif %}>
-      <a href="{{ request.route_url('admin', week_num=(week|int - 1)) }}" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
-      </a>
-    </li>
+    <nav class="paginationcentre" aria-label="Page navigation">
+        <ul class="pagination">
+            <li {% if week == 1 %}class="disabled"{% endif %}>
+                <a href="{{ request.route_url('admin', week_num=(week|int - 1)) }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
 
-    {% for n in range(17) %}
-        <li><a href="{{ request.route_url('admin', week_num=n+1) }}">{{ n+1 }}</a></li>
-    {% endfor %}
-    <li {% if week == 17 %}class="disabled"{% endif %}>
-      <a href="{{ request.route_url('admin', week_num=(week|int + 1)) }}" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-      </a>
-    </li>
-  </ul>
-</nav>
+        {% for n in range(17) %}
+            <li><a href="{{ request.route_url('admin', week_num=n+1) }}">{{ n+1 }}</a></li>
+        {% endfor %}
+            <li {% if week == 17 %}class="disabled"{% endif %}>
+                <a href="{{ request.route_url('admin', week_num=(week|int + 1)) }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 
     <form class="pick-group" action="" method="POST">
         <ul id="games_list">
-            <h2>Week {{ week }}</h2>
+            <h2>Result games for week {{ week }}</h2>
             {% for game in games %}
-                <li><span class="team">{{ game.away }} <input type="checkbox" name="game{{ game.id }}" value="away {{ game.id }} {{ week }}"></span> <span class="team"> @ {{ game.home }} <input type="checkbox" name="game{{ game.id }}" value="home {{ game.id }} {{ week }}"></span> </li>
+                <li>
+                    {% for team in teams %}
+                        {% if game.away ==  team.name %}
+                            <img class='icon' src='{{ team.icon }}'> 
+                        {% endif %}
+                    {% endfor %}
+                    <span class="team"> <input type="checkbox" name="game{{ game.id }}" value="away {{ game.id }} {{ week }}"> {{ game.away }} </span> <span class="team"> @
+                    {% for team in teams %}
+                        {% if game.home ==  team.name %}
+                            <img class='icon' src='{{ team.icon }}'> 
+                        {% endif %}
+                    {% endfor %}
+                    <input type="checkbox" name="game{{ game.id }}" value="home {{ game.id }} {{ week }}"> {{ game.home }}</span> 
+                </li>
                 <li>{{ game.datetime.strftime('%A %B %d, %Y %I:%M %p').lstrip("0").replace(" 0", " ")}}</li>
                 <br>
             {% endfor %}
             <button class="btn btn-default" type="submit" name="Save pick"/><i class="fa fa-lg fa-floppy-o"></i> Save result</button>
         </ul>
     </form>
-    
+
+    <h3> Byes this week</h3> 
+    {% for team in teams %}
+        {% if week|int ==  team.bye_week %}
+            {{ team.name }}<br> 
+        {% endif %}
+    {% endfor %}
+
+
+<script type="text/javascript">
+    $('#nav-admin').css('border-bottom', '2px solid #58ae82');
+</script>
 {% endblock %}
