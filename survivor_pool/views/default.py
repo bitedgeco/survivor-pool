@@ -110,3 +110,10 @@ def pool_view(request):
     for user in users:
         user.teamname = user._get_pick_for_week(week)
     return {'users': users, "week": week, "events": events}
+
+
+@view_config(route_name='test-teams', renderer='templates/test-teams.jinja2')
+def test_teams_view(request):
+    from ..models.team import Team
+    list_of_teams = request.dbsession.query(Team).all()
+    return {"teams": list_of_teams}
