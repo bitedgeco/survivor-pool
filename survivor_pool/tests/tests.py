@@ -60,6 +60,30 @@ def test_pick_redirect(testapp):
     assert response.status_code == 302
 
 
+def test_private_view_accessible(auth_app):
+    """Test if authenticated app can access restricted page."""
+    response = auth_app.get('/pick/week1', status=200)
+    assert b'Seahawks' in response.body
+
+
+def test_admin_view_inaccessible(auth_app):
+    """Test if an authenticated user gets redirected at the admin page."""
+    response = auth_app.get('/admin/week1', status='3*')
+    assert response.status_code == 302
+
+
+def test_private_view_accessible_admin(admin_app):
+    """Test if admin app can access restricted page."""
+    response = admin_app.get('/pick/week1', status=200)
+    assert b'Seahawks' in response.body
+
+
+def test_admin_view_accessible_for_admin(admin_app):
+    """Test if an admin has access to the admin pages."""
+    response = admin_app.get('/admin/week1', status=200)
+    assert b'Seahawks' in response.body
+
+
 def test_event_resolve_week(testapp, dummy_request, populated_db):
     """Test the _resolve_week method of Event class."""
     test_event = dummy_request.dbsession.query(Event).filter(Event.id == 1).first()
@@ -133,34 +157,6 @@ def test_security_check_credentials_error(testapp, dummy_request, populated_db):
     assert check_credentials(dummy_request, "Bob Barker", "") is False
 
 
-# -----Security tests--------
-
-def test_private_view_accessible(auth_app):
-    """Test if authenticated app can access restricted page."""
-    response = auth_app.get('/pick/week1', status=200)
-    assert b'Seahawks' in response.body
-
-
-def test_admin_view_inaccessible(auth_app):
-    """Test if an authenticated user gets redirected at the admin page."""
-    response = auth_app.get('/admin/week1', status='3*')
-    assert response.status_code == 302
-
-def test_private_view_accessible_admin(admin_app):
-    """Test if admin app can access restricted page."""
-    response = admin_app.get('/pick/week1', status=200)
-    assert b'Seahawks' in response.body
-
-
-def test_admin_view_accessible_for_admin(admin_app):
-    """Test if an admin has access to the admin pages."""
-    response = admin_app.get('/admin/week1', status=200)
-    assert b'Seahawks' in response.body
-
-
-# --------------
-
-
 def test_admin_view_post_helper_function_length(dummy_request, populated_db):
     """Test to see if there is one object in dbsession.dirty"""
     from ..views.default import admin_view_post_helper
@@ -178,3 +174,74 @@ def test_admin_view_post_helper_function_content(dummy_request, populated_db):
     admin_view_post_helper(dummy_request)
     our_updated_thing = dummy_request.dbsession.dirty.pop()
     assert our_updated_thing.winner == 'home'
+
+
+def test_admin_view_post_request_keys(dummy_request, populated_db):
+    """Test admin view with a post request for dict outcome."""
+    from ..views.default import admin_view
+    dummy_request.matchdict["week_num"] = 2
+    dummy_request.method = "POST"
+    result = admin_view(dummy_request)
+    expected_result = ["games", "week", "current_week", "teams"]
+    assert all(names in result.keys() for names in expected_result)
+
+
+def test_admin_view_post_request_chk_listofgames(dummy_request, populated_db):
+    """Test admin view with a post request for specific content."""
+    from ..views.default import admin_view
+    dummy_request.matchdict["week_num"] = 2
+    dummy_request.method = "POST"
+    result = admin_view(dummy_request)
+    assert len(result["games"]) == 6
+
+
+def test_login_view_invalid_credentials(dummy_request):
+    """Test login view with invalid login credentials."""
+    from ..views.default import login_view
+    auth_data = {
+        "username": "Bob Marley",
+        "password": "groovy man",
+    }
+    dummy_request.params = auth_data
+    dummy_request.method = "POST"
+    assert login_view(dummy_request) == {'login_error': 'invalid credentials'}
+
+
+def test_login_view_new_username_valid_return_val(dummy_request, populated_db):
+    """Test login with new username that is valid, ensure return is correct."""
+    from ..views.default import login_view
+    from pyramid.httpexceptions import HTTPFound
+    new_user_data = {
+        "new_username": "Bob Marley",
+        "new_password": "groovy man",
+    }
+    dummy_request.params = new_user_data
+    dummy_request.method = "POST"
+    assert isinstance(login_view(dummy_request), HTTPFound)
+
+
+def test_login_view_new_username_valid_check_new_user(dummy_request, populated_db):
+    """Test login with new username that is valid, ensure new user is in
+    dbsession.dirty."""
+    from ..views.default import login_view
+    new_user_data = {
+        "new_username": "Bob Marley",
+        "new_password": "groovy man",
+    }
+    dummy_request.params = new_user_data
+    dummy_request.method = "POST"
+    login_view(dummy_request)
+    new_user = dummy_request.dbsession.new.pop()
+    assert isinstance(new_user, User)
+
+
+def test_login_view_new_username_already_exists(dummy_request, populated_db):
+    """Test login new username with username that already exists."""
+    from ..views.default import login_view
+    new_user_data = {
+        "new_username": "Bob Barker",
+        "new_password": "groovy man",
+    }
+    dummy_request.params = new_user_data
+    dummy_request.method = "POST"
+    assert login_view(dummy_request) == {'signup_error': 'user already exists'}

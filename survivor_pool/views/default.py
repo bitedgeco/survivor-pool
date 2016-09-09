@@ -28,7 +28,7 @@ def admin_view(request):
     list_of_weeks_with_no_byes = [1, 2, 3, 12, 14, 15, 16, 17]
     list_of_teams = request.dbsession.query(Team).all()
     week = int(request.matchdict.get('week_num', None))
-    list_of_games = request.dbsession.query(Event).filter(Event.week == week)
+    list_of_games = request.dbsession.query(Event).filter(Event.week == week).all()
     current_week = find_current_week(request)
     if request.method == 'GET':
         return {"games": list_of_games, "week": week, "teams": list_of_teams, "weeks_with_no_byes": list_of_weeks_with_no_byes}
@@ -48,7 +48,6 @@ def admin_view_post_helper(request):
             winner = user_input[0]
             event_object = request.dbsession.query(Event).filter(Event.id == event_id).first()
             event_object.winner = winner
-            request.dbsession.add(event_object)
 
 
 @view_config(route_name='login-signup', renderer='templates/login-signup.jinja2', permission='public')
@@ -60,15 +59,13 @@ def login_view(request):
             if check_credentials(request, username, password):
                 headers = remember(request, username)
                 return HTTPFound(location=request.route_url('pool'), headers=headers)
-            login_error = 'invalid credentials'
-            return {'login_error': login_error}
+            return {'login_error': 'invalid credentials'}
         if request.params.get('new_username', ''):
             new_username = request.params.get('new_username', '')
             new_password = request.params.get('new_password', '')
             existing_users = request.dbsession.query(User).all()
             if any(d.username == new_username for d in existing_users):
-                signup_error = 'user already exists'
-                return {'signup_error': signup_error}
+                return {'signup_error': 'user already exists'}
             new_user = User(username=new_username, password=new_password, isalive=True, isadmin=False)
             request.dbsession.add(new_user)
             headers = remember(request, new_username)
@@ -83,7 +80,6 @@ def week_view(request):
     import json
     list_of_teams = request.dbsession.query(Team).all()
     week = int(request.matchdict.get('week_num', None))
-<<<<<<< HEAD
     list_of_weeks_with_no_byes = [1, 2, 3, 12, 14, 15, 16, 17]
     current_week = find_current_week(request)
     if week < current_week or week > 17:
