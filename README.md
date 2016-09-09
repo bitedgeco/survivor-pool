@@ -1,7 +1,7 @@
 # Survivor Pool
 
-![GitHub Logo](tree/master/survivor_pool/static/img/logo.png)
-Format: ![Alt Text](https://github.com/bitedgeco/survivor-pool/tree/master/survivor_pool/static/img/logo.png)
+![GitHub Logo](/static/img/logo.png)
+Format: ![Alt Text](Survivor Pool Logo)
 
 
 ###Rules of a survivor pool
