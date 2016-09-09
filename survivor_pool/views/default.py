@@ -102,7 +102,8 @@ def week_view(request):
             "past_picks": json.dumps(past_picks),
             "teams": list_of_teams,
             "past_full": unformatted_past_picks,
-            "weeks_with_no_byes": list_of_weeks_with_no_byes}
+            "weeks_with_no_byes": list_of_weeks_with_no_byes,
+            "current_week": current_week}
 
     if request.method == "POST":
         user_input = str(request.params['game']).split()
