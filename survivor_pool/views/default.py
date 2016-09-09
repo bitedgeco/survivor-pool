@@ -103,7 +103,8 @@ def week_view(request):
             "teams": list_of_teams,
             "past_full": unformatted_past_picks,
             "weeks_with_no_byes": list_of_weeks_with_no_byes,
-            "current_week": current_week}
+            "current_week": current_week,
+            "is_alive": user_object.isalive}
 
     if request.method == "POST":
         user_input = str(request.params['game']).split()
