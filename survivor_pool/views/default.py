@@ -85,7 +85,7 @@ def week_view(request):
     if week < current_week or week > 17:
         return HTTPFound(location=request.route_url('pick', week_num=current_week))
     my_user = request.authenticated_userid
-    user_object = request.dbsession.query(User).filter(User.username == my_user).one()
+    user_object = request.dbsession.query(User).filter(User.username == my_user).first()
     unformatted_past_picks = user_object._get_all_user_picks()
     past_picks = []
     for pick in unformatted_past_picks:
@@ -107,15 +107,14 @@ def week_view(request):
 
     if request.method == "POST":
         user_input = str(request.params['game']).split()
-        game_object = request.dbsession.query(Event).get(user_input[1])
+        game_object = request.dbsession.query(Event).filter(Event.id == user_input[1]).first()
         week = int(user_input[2])
         existing_pick = request.dbsession.query(Pick).filter(Pick.user_id == user_object.id, Pick.week == week).first()
         if existing_pick:
             request.dbsession.delete(existing_pick)
-        new_pick = user_object._add_pick(game_object, user_input[0], week)
-        request.dbsession.add(new_pick)
         current_week = find_current_week(request)
-        return HTTPFound(request.route_url('pick', week_num=week))
+        user_object._add_pick(game_object, user_input[0], week)
+        return HTTPFound(request.route_url('pick', week_num=current_week))
 
 
 @view_config(route_name='logout')
