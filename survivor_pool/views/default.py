@@ -82,7 +82,6 @@ def week_view(request):
     week = int(request.matchdict.get('week_num', None))
     list_of_weeks_with_no_byes = [1, 2, 3, 12, 14, 15, 16, 17]
     current_week = find_current_week(request)
-    current_week = 7
     if week < current_week or week > 17:
         return HTTPFound(location=request.route_url('pick', week_num=current_week))
     my_user = request.authenticated_userid
@@ -104,7 +103,8 @@ def week_view(request):
             "teams": list_of_teams,
             "past_full": unformatted_past_picks,
             "weeks_with_no_byes": list_of_weeks_with_no_byes,
-            "current_week": current_week}
+            "current_week": current_week,
+            "is_alive": user_object.isalive}
 
     if request.method == "POST":
         user_input = str(request.params['game']).split()
