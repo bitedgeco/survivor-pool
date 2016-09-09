@@ -6,7 +6,6 @@ from ..models import (
     Event,
     Pick,
 )
-import pytest
 import datetime
 from pyramid.httpexceptions import HTTPFound
 
@@ -45,7 +44,7 @@ def test_logout_redirect(testapp):
 
 def test_admin_redirect(testapp):
     '''Test redirect of non-logged in user from admin.'''
-    response = testapp.get('/admin/week1', status='3*')
+    response = testapp.get('/admin/week9', status='3*')
     assert response.status_code == 302
 
 
@@ -57,31 +56,31 @@ def test_pool_redirect(testapp):
 
 def test_pick_redirect(testapp):
     '''Test redirect of non-logged in user from select.'''
-    response = testapp.get('/pick/week1', status='3*')
+    response = testapp.get('/pick/week9', status='3*')
     assert response.status_code == 302
 
 
 def test_private_view_accessible(auth_app):
     """Test if authenticated app can access restricted page."""
-    response = auth_app.get('/pick/week1', status=200)
+    response = auth_app.get('/pick/week9', status=200)
     assert b'Seahawks' in response.body
 
 
 def test_admin_view_inaccessible(auth_app):
     """Test if an authenticated user gets redirected at the admin page."""
-    response = auth_app.get('/admin/week1', status='3*')
+    response = auth_app.get('/admin/week9', status='3*')
     assert response.status_code == 302
 
 
 def test_private_view_accessible_admin(admin_app):
     """Test if admin app can access restricted page."""
-    response = admin_app.get('/pick/week1', status=200)
+    response = admin_app.get('/pick/week9', status=200)
     assert b'Seahawks' in response.body
 
 
 def test_admin_view_accessible_for_admin(admin_app):
     """Test if an admin has access to the admin pages."""
-    response = admin_app.get('/admin/week1', status=200)
+    response = admin_app.get('/admin/week9', status=200)
     assert b'Seahawks' in response.body
 
 
