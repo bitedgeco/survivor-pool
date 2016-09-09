@@ -25,7 +25,6 @@ http://survivorpool.herokuapp.com/
 * Admin has ability to result games on the admin page.
 
 
-
 ###Dependancies
 
 * PIP
@@ -59,8 +58,5 @@ __Zach Rickert__
 
 * Git Hub: [github.com/zachrickert](https://github.com/zachrickert)
 
-
-###Status
-Beginning development phase
 
 
