@@ -13,4 +13,7 @@ def notfound_view(request):
 @forbidden_view_config()
 def forbidden_view(request):
     request.response.status = 403
-    return HTTPFound(location=request.route_url('login-signup'))
+    if request.authenticated_userid:
+        return HTTPFound(location=request.route_url('home'))
+    else:
+        return HTTPFound(location=request.route_url('login-signup'))

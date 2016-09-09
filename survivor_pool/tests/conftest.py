@@ -20,12 +20,14 @@ import pytest
 from ..models.meta import Base
 import os
 
+from passlib.apps import custom_app_context as pwd_context
+
 
 TEST_DB_URL = os.environ.get('TEST_DB_URL', '')
 TEST_DB_SETTINGS = {'sqlalchemy.url': TEST_DB_URL}
 
-# tests are expecting TEST_DB_URL constant to be set in the testers environment
-# in the following format:
+# tests are expecting TEST_DB_URL constant to be set in the testers
+# environment in the following format:
 # TEST_DB_URL="postgres://<<your_username_here>>@localhost:5432/test_survivor_pool"
 # you also need to run "createdb test_survivor_pool at the command line"
 
@@ -35,6 +37,7 @@ def provide_test_url():
     return TEST_DB_URL
 
 
+@pytest.fixture()
 def dummy_request(new_session):
     return testing.DummyRequest(dbsession=new_session)
 
@@ -43,6 +46,7 @@ def dummy_request(new_session):
 def sqlengine(request):
     config = testing.setUp(settings=TEST_DB_SETTINGS)
     config.include("..models")
+    config.include("..routes")
     settings = config.get_settings()
     engine = get_engine(settings)
     Base.metadata.create_all(engine)
@@ -65,14 +69,50 @@ def testapp(sqlengine, provide_test_url):
     return TestApp(app)
 
 
+@pytest.fixture(scope='session')
+def auth_env():
+    username = 'Bob Barker'
+    password = 'password'
+    os.environ['AUTH_USERNAME'] = username
+    os.environ['AUTH_PASSWORD'] = pwd_context.encrypt(password)
+    return username, password
+
+
+@pytest.fixture(scope='function')
+def auth_app(testapp, auth_env):
+    username, password = auth_env
+    auth_data = {
+        'username': username,
+        'password': password
+    }
+    testapp.post('/login-signup', auth_data)
+    return testapp
+
+
+@pytest.fixture(scope='session')
+def admin_env():
+    username = 'Zach'
+    password = 'laptop'
+    os.environ['AUTH_USERNAME'] = username
+    os.environ['AUTH_PASSWORD'] = pwd_context.encrypt(password)
+    return username, password
+
+
+@pytest.fixture(scope='function')
+def admin_app(testapp, admin_env):
+    username, password = admin_env
+    auth_data = {
+        'username': username,
+        'password': password
+    }
+    testapp.post('/login-signup', auth_data)
+    return testapp
+
+
 @pytest.fixture(scope="function")
 def new_session(sqlengine, request):
     session_factory = get_session_factory(sqlengine)
     session = get_tm_session(session_factory, transaction.manager)
-
-    with transaction.manager:
-        dbsession = get_tm_session(session_factory, transaction.manager)
-    session.dbsession = dbsession
 
     def teardown():
         transaction.abort()

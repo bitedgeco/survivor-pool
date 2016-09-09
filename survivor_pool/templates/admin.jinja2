@@ -1,35 +1,68 @@
 {% extends "layout.jinja2" %}
 {% block body %}
-
-<nav class="paginationcentre" aria-label="Page navigation">
-  <ul class="pagination">
-    <li {% if week == 1 %}class="disabled"{% endif %}>
-      <a href="{{ request.route_url('admin', week_num=(week|int - 1)) }}" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
-      </a>
-    </li>
-
-    {% for n in range(17) %}
-        <li><a href="{{ request.route_url('admin', week_num=n+1) }}">{{ n+1 }}</a></li>
-    {% endfor %}
-    <li {% if week == 17 %}class="disabled"{% endif %}>
-      <a href="{{ request.route_url('admin', week_num=(week|int + 1)) }}" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-      </a>
-    </li>
-  </ul>
-</nav>
-
-    <form class="pick-group" action="" method="POST">
-        <ul id="games_list">
-            <h2>Week {{ week }}</h2>
-            {% for game in games %}
-                <li><span class="team">{{ game.away }} <input type="checkbox" name="game{{ game.id }}" value="away {{ game.id }} {{ week }}"></span> <span class="team"> @ {{ game.home }} <input type="checkbox" name="game{{ game.id }}" value="home {{ game.id }} {{ week }}"></span> </li>
-                <li>{{ game.datetime.strftime('%A %B %d, %Y %I:%M %p').lstrip("0").replace(" 0", " ")}}</li>
-                <br>
-            {% endfor %}
-            <button class="btn btn-default" type="submit" name="Save pick"/><i class="fa fa-lg fa-floppy-o"></i> Save result</button>
+    <nav class="paginationcentre" aria-label="Page navigation">
+        <ul class="pagination">
+            <li {% if week == 1 %}class="disabled"{% endif %}>
+                <a href="{{ request.route_url('admin', week_num=(week|int - 1)) }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+        {% for n in range(17) %}
+            <li><a href="{{ request.route_url('admin', week_num=n+1) }}">{{ n+1 }}</a></li>
+        {% endfor %}
+            <li {% if week == 17 %}class="disabled"{% endif %}>
+                <a href="{{ request.route_url('admin', week_num=(week|int + 1)) }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
         </ul>
-    </form>
-    
+    </nav>
+    <h2>Result games for week {{ week }}</h2>
+    <form class="pick-group" action="" method="POST">
+        <div class="row">
+            <div class='col-md-7'>
+                {% for game in games %}
+                    <div class="row">
+                        <div class="col-sm-6">
+                            {% for team in teams %}
+                                {% if game.away ==  team.name %}
+                                    <img class='icon' src='{{ team.icon }}'> 
+                                {% endif %}
+                            {% endfor %}
+                            <span class="team"> <input type="radio" name="game{{ game.id }}" value="away {{ game.id }} {{ week }}"> {{ game.away }} </span> 
+                        </div>
+                        <div class="col-sm-6">
+                            {% for team in teams %}
+                                {% if game.home ==  team.name %}
+                                    <span class="team">@ <img class='icon' src='{{ team.icon }}'> 
+                                {% endif %}
+                            {% endfor %}
+                            <input type="radio" name="game{{ game.id }}" value="home {{ game.id }} {{ week }}"> {{ game.home }}</span>
+                            <br>
+                        </div>
+                    </div>
+                        {{ game.datetime.strftime('%A %B %d, %Y %I:%M %p').lstrip("0").replace(" 0", " ")}}
+                    <hr>
+                {% endfor %}
+                <button class="btn btn-default" type="submit" name="Save pick"/><i class="fa fa-lg fa-floppy-o"></i> Save result</button>
+            </form>
+        </div>
+        <div class='col-md-5'>
+
+        {% if week in weeks_with_no_byes %}
+                <h3>No byes this week</h3> 
+            {% else %}
+                <h3> Byes this week</h3> 
+                {% for team in teams %}
+                    {% if week|int ==  team.bye_week %}
+                        <img class='icon grey-img' src='{{ team.icon }}'> {{ team.name }}<br> 
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+
+        </div>
+    </div>
+    <script type="text/javascript">
+        $('#nav-admin').css('border-bottom', '2px solid #58ae82');
+    </script>
 {% endblock %}

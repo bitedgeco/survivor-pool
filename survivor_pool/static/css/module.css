@@ -39,3 +39,12 @@ i {
 .team {
     font-size: 18px;
 }
+
+.grey-img {
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%); /* Chrome, Safari, Opera */
+}
+
+.btn {
+    background-color: #58ae82;
+}
