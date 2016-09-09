@@ -25,17 +25,18 @@ def about_view(request):
 def admin_view(request):
     from ..models.team import Team
     from ..models.event import Event
+    list_of_weeks_with_no_byes = [1, 2, 3, 12, 14, 15, 16, 17]
     list_of_teams = request.dbsession.query(Team).all()
-    week = request.matchdict.get('week_num', None)
+    week = int(request.matchdict.get('week_num', None))
     list_of_games = request.dbsession.query(Event).filter(Event.week == week).all()
     current_week = find_current_week(request)
     if request.method == 'GET':
-        return {"games": list_of_games, "week": week, "teams": list_of_teams}
+        return {"games": list_of_games, "week": week, "teams": list_of_teams, "weeks_with_no_byes": list_of_weeks_with_no_byes}
     if request.method == 'POST':
         admin_view_post_helper(request)
         for game in list_of_games:
             game._resolve_week()
-        return {"games": list_of_games, "week": week, "current_week": current_week, "teams": list_of_teams}
+        return {"games": list_of_games, "week": week, "current_week": current_week, "teams": list_of_teams, "weeks_with_no_byes": list_of_weeks_with_no_byes}
 
 
 def admin_view_post_helper(request):
@@ -79,10 +80,10 @@ def week_view(request):
     import json
     list_of_teams = request.dbsession.query(Team).all()
     week = int(request.matchdict.get('week_num', None))
+    list_of_weeks_with_no_byes = [1, 2, 3, 12, 14, 15, 16, 17]
     current_week = find_current_week(request)
     if week < current_week or week > 17:
         return HTTPFound(location=request.route_url('pick', week_num=current_week))
-
     my_user = request.authenticated_userid
     user_object = request.dbsession.query(User).filter(User.username == my_user).one()
     unformatted_past_picks = user_object._get_all_user_picks()
@@ -95,7 +96,14 @@ def week_view(request):
         game._home = classable_text_conversion(game.home)
 
     if request.method == "GET":
-        return {"games": list_of_games, "week": week, "current_week": current_week, "past_picks": json.dumps(past_picks), "teams": list_of_teams, "past_full": unformatted_past_picks}
+        return {
+            "games": list_of_games,
+            "week": week,
+            "past_picks": json.dumps(past_picks),
+            "teams": list_of_teams,
+            "past_full": unformatted_past_picks,
+            "weeks_with_no_byes": list_of_weeks_with_no_byes,
+            "current_week": current_week}
 
     if request.method == "POST":
         user_input = str(request.params['game']).split()
@@ -107,8 +115,7 @@ def week_view(request):
         new_pick = user_object._add_pick(game_object, user_input[0], week)
         request.dbsession.add(new_pick)
         current_week = find_current_week(request)
-        return {"games": list_of_games, "week": week,
-                "current_week": current_week, "past_picks": json.dumps(past_picks), "teams": list_of_teams}
+        return HTTPFound(request.route_url('pick', week_num=week))
 
 
 @view_config(route_name='logout')
