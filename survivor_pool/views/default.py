@@ -83,6 +83,7 @@ def week_view(request):
     list_of_teams = request.dbsession.query(Team).all()
     week = int(request.matchdict.get('week_num', None))
     current_week = find_current_week(request)
+    current_week = 7
     if week < current_week or week > 17:
         return HTTPFound(location=request.route_url('pick', week_num=current_week))
 
@@ -98,7 +99,14 @@ def week_view(request):
         game._home = classable_text_conversion(game.home)
 
     if request.method == "GET":
-        return {"games": list_of_games, "week": week, "current_week": current_week, "past_picks": json.dumps(past_picks), "teams": list_of_teams, "past_full": unformatted_past_picks}
+        return {
+            "games": list_of_games, 
+            "week": week, 
+            "current_week": current_week, 
+            "past_picks": json.dumps(past_picks), 
+            "teams": list_of_teams, 
+            "past_full": unformatted_past_picks,
+            }
 
     if request.method == "POST":
         user_input = str(request.params['game']).split()
