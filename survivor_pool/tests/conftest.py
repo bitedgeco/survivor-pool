@@ -26,8 +26,8 @@ from passlib.apps import custom_app_context as pwd_context
 TEST_DB_URL = os.environ.get('TEST_DB_URL', '')
 TEST_DB_SETTINGS = {'sqlalchemy.url': TEST_DB_URL}
 
-# tests are expecting TEST_DB_URL constant to be set in the testers environment
-# in the following format:
+# tests are expecting TEST_DB_URL constant to be set in the testers
+# environment in the following format:
 # TEST_DB_URL="postgres://<<your_username_here>>@localhost:5432/test_survivor_pool"
 # you also need to run "createdb test_survivor_pool at the command line"
 
@@ -42,10 +42,32 @@ def dummy_request(new_session):
     return testing.DummyRequest(dbsession=new_session)
 
 
+class DummerRequest():
+    """Sub for DummyRequest when it won't work for a specific purpose."""
+    matchdict = {}
+    authenticated_userid = ""
+    params = {}
+    method = ""
+
+    def __init__(self, **kwargs):
+        """Make an instance of DummerRequest."""
+        self.__dict__.update(kwargs)
+
+    def route_url(self, some_text="", week_num=""):
+        """Be a fake route url woo."""
+        return '/{}'.format(some_text)
+
+
+@pytest.fixture(scope="function")
+def dummerrequest(new_session):
+    return DummerRequest(dbsession=new_session)
+
+
 @pytest.fixture(scope="function")
 def sqlengine(request):
     config = testing.setUp(settings=TEST_DB_SETTINGS)
     config.include("..models")
+    config.include("..routes")
     settings = config.get_settings()
     engine = get_engine(settings)
     Base.metadata.create_all(engine)

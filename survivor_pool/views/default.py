@@ -25,17 +25,18 @@ def about_view(request):
 def admin_view(request):
     from ..models.team import Team
     from ..models.event import Event
+    list_of_weeks_with_no_byes = [1, 2, 3, 12, 14, 15, 16, 17]
     list_of_teams = request.dbsession.query(Team).all()
-    week = request.matchdict.get('week_num', None)
-    list_of_games = request.dbsession.query(Event).filter(Event.week == week)
+    week = int(request.matchdict.get('week_num', None))
+    list_of_games = request.dbsession.query(Event).filter(Event.week == week).all()
     current_week = find_current_week(request)
     if request.method == 'GET':
-        return {"games": list_of_games, "week": week, "teams": list_of_teams}
+        return {"games": list_of_games, "week": week, "teams": list_of_teams, "weeks_with_no_byes": list_of_weeks_with_no_byes}
     if request.method == 'POST':
         admin_view_post_helper(request)
         for game in list_of_games:
             game._resolve_week()
-        return {"games": list_of_games, "week": week, "current_week": current_week, "teams": list_of_teams}
+        return {"games": list_of_games, "week": week, "current_week": current_week, "teams": list_of_teams, "weeks_with_no_byes": list_of_weeks_with_no_byes}
 
 
 def admin_view_post_helper(request):
@@ -47,7 +48,6 @@ def admin_view_post_helper(request):
             winner = user_input[0]
             event_object = request.dbsession.query(Event).filter(Event.id == event_id).first()
             event_object.winner = winner
-            request.dbsession.add(event_object)
 
 
 @view_config(route_name='login-signup', renderer='templates/login-signup.jinja2', permission='public')
@@ -59,15 +59,13 @@ def login_view(request):
             if check_credentials(request, username, password):
                 headers = remember(request, username)
                 return HTTPFound(location=request.route_url('pool'), headers=headers)
-            login_error = 'invalid credentials'
-            return {'login_error': login_error}
+            return {'login_error': 'invalid credentials'}
         if request.params.get('new_username', ''):
             new_username = request.params.get('new_username', '')
             new_password = request.params.get('new_password', '')
             existing_users = request.dbsession.query(User).all()
             if any(d.username == new_username for d in existing_users):
-                signup_error = 'user already exists'
-                return {'signup_error': signup_error}
+                return {'signup_error': 'user already exists'}
             new_user = User(username=new_username, password=new_password, isalive=True, isadmin=False)
             request.dbsession.add(new_user)
             headers = remember(request, new_username)
@@ -82,13 +80,13 @@ def week_view(request):
     import json
     list_of_teams = request.dbsession.query(Team).all()
     week = int(request.matchdict.get('week_num', None))
+    list_of_weeks_with_no_byes = [1, 2, 3, 12, 14, 15, 16, 17]
     current_week = find_current_week(request)
     current_week = 7
     if week < current_week or week > 17:
         return HTTPFound(location=request.route_url('pick', week_num=current_week))
-
     my_user = request.authenticated_userid
-    user_object = request.dbsession.query(User).filter(User.username == my_user).one()
+    user_object = request.dbsession.query(User).filter(User.username == my_user).first()
     unformatted_past_picks = user_object._get_all_user_picks()
     past_picks = []
     for pick in unformatted_past_picks:
@@ -100,26 +98,24 @@ def week_view(request):
 
     if request.method == "GET":
         return {
-            "games": list_of_games, 
-            "week": week, 
-            "current_week": current_week, 
-            "past_picks": json.dumps(past_picks), 
-            "teams": list_of_teams, 
+            "games": list_of_games,
+            "week": week,
+            "past_picks": json.dumps(past_picks),
+            "teams": list_of_teams,
             "past_full": unformatted_past_picks,
-            }
+            "weeks_with_no_byes": list_of_weeks_with_no_byes,
+            "current_week": current_week}
 
     if request.method == "POST":
         user_input = str(request.params['game']).split()
-        game_object = request.dbsession.query(Event).get(user_input[1])
+        game_object = request.dbsession.query(Event).filter(Event.id == user_input[1]).first()
         week = int(user_input[2])
         existing_pick = request.dbsession.query(Pick).filter(Pick.user_id == user_object.id, Pick.week == week).first()
         if existing_pick:
             request.dbsession.delete(existing_pick)
-        new_pick = user_object._add_pick(game_object, user_input[0], week)
-        request.dbsession.add(new_pick)
         current_week = find_current_week(request)
-        return {"games": list_of_games, "week": week,
-                "current_week": current_week, "past_picks": json.dumps(past_picks), "teams": list_of_teams}
+        user_object._add_pick(game_object, user_input[0], week)
+        return HTTPFound(request.route_url('pick', week_num=current_week))
 
 
 @view_config(route_name='logout')
