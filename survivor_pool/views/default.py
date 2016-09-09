@@ -83,9 +83,10 @@ def week_view(request):
     import json
     list_of_teams = request.dbsession.query(Team).all()
     week = int(request.matchdict.get('week_num', None))
+<<<<<<< HEAD
     list_of_weeks_with_no_byes = [1, 2, 3, 12, 14, 15, 16, 17]
-    if week < 1 or week > 17:
-        current_week = find_current_week(request)
+    current_week = find_current_week(request)
+    if week < current_week or week > 17:
         return HTTPFound(location=request.route_url('pick', week_num=current_week))
     my_user = request.authenticated_userid
     user_object = request.dbsession.query(User).filter(User.username == my_user).one()
