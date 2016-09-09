@@ -1,6 +1,6 @@
 # Survivor Pool
 
-![GitHub Logo](/static/img/logo.png)
+![GitHub Logo](https://github.com/bitedgeco/survivor-pool/blob/master/survivor_pool/static/img/logo.png)
 Format: ![Alt Text](Survivor Pool Logo)
 
 
