@@ -1,5 +1,10 @@
 # Survivor Pool
 
+![GitHub Logo](https://github.com/bitedgeco/survivor-pool/blob/master/survivor_pool/static/img/logo.png)
+
+###Introduction 
+Survivor pool is an app to participate in a season of an NFL survivor pool.
+
 ###Rules of a survivor pool
 
 * Every week participants select a team to win a single NFL game.
@@ -7,11 +12,33 @@
 * Survivors cannot select the team twice.
 * The winner(s) of the pool is the person/people who survives the longest.
 
+###Website
+http://survivorpool.herokuapp.com/
+
+
+###Functionality
+
+* Users are able to Log in / Log out of the app.
+* Once logged in the Pool page displays who is still alive in the pool and who has been eliminated.
+* Picks page displays a weeks worth of football games. Participants have ability to selecet a team for the week.
+* Once a particular team has been selected that team cannot be used in following weeks.
+* Admin has ability to result games on the admin page.
+
+
 ###Dependancies
 
 * PIP
-* Pyramid   
+* Pyramid
 Then run $ PIP install -e .
+
+
+###Coverage
+91%
+
+
+###License
+MIT License
+
 
 ### Authors
 
@@ -35,8 +62,5 @@ __Zach Rickert__
 
 * Git Hub: [github.com/zachrickert](https://github.com/zachrickert)
 
-
-###Status
-Beginning development phase
 
 
