@@ -1,5 +1,9 @@
 # Survivor Pool
 
+![GitHub Logo](tree/master/survivor_pool/static/img/logo.png)
+Format: ![Alt Text](https://github.com/bitedgeco/survivor-pool/tree/master/survivor_pool/static/img/logo.png)
+
+
 ###Rules of a survivor pool
 
 * Every week participants select a team to win a single NFL game.
@@ -10,7 +14,7 @@
 ###Dependancies
 
 * PIP
-* Pyramid   
+* Pyramid
 Then run $ PIP install -e .
 
 ### Authors
