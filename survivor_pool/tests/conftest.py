@@ -42,6 +42,27 @@ def dummy_request(new_session):
     return testing.DummyRequest(dbsession=new_session)
 
 
+class DummerRequest():
+    """Sub for DummyRequest when it won't work for a specific purpose."""
+    matchdict = {}
+    authenticated_userid = ""
+    params = {}
+    method = ""
+
+    def __init__(self, **kwargs):
+        """Make an instance of DummerRequest."""
+        self.__dict__.update(kwargs)
+
+    def route_url(self, some_text="", week_num=""):
+        """Be a fake route url woo."""
+        return '/{}'.format(some_text)
+
+
+@pytest.fixture(scope="function")
+def dummerrequest(new_session):
+    return DummerRequest(dbsession=new_session)
+
+
 @pytest.fixture(scope="function")
 def sqlengine(request):
     config = testing.setUp(settings=TEST_DB_SETTINGS)

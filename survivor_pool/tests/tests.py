@@ -8,6 +8,7 @@ from ..models import (
 )
 import pytest
 import datetime
+from pyramid.httpexceptions import HTTPFound
 
 # *----------view/route/page tests for non-logged-in users-----------*
 
@@ -210,7 +211,6 @@ def test_login_view_invalid_credentials(dummy_request):
 def test_login_view_new_username_valid_return_val(dummy_request, populated_db):
     """Test login with new username that is valid, ensure return is correct."""
     from ..views.default import login_view
-    from pyramid.httpexceptions import HTTPFound
     new_user_data = {
         "new_username": "Bob Marley",
         "new_password": "groovy man",
@@ -245,3 +245,47 @@ def test_login_view_new_username_already_exists(dummy_request, populated_db):
     dummy_request.params = new_user_data
     dummy_request.method = "POST"
     assert login_view(dummy_request) == {'signup_error': 'user already exists'}
+
+
+def test_week_view_with_week_out_of_range(dummy_request, populated_db):
+    from ..views.default import week_view
+    dummy_request.matchdict["week_num"] = 21
+    assert isinstance(week_view(dummy_request), HTTPFound)
+
+
+def test_week_view_get_request(dummerrequest, populated_db):
+    from ..views.default import week_view
+    dummerrequest.authenticated_userid = "Bob Barker"
+    dummerrequest.matchdict["week_num"] = 3
+    dummerrequest.method = "GET"
+    expected_result = ["games", "week", "past_picks", "teams", "past_full",
+                       "weeks_with_no_byes", "current_week"]
+    result = week_view(dummerrequest)
+    assert all(names in result.keys() for names in expected_result)
+
+
+def test_week_view_post_request_output(dummerrequest, populated_db):
+    from ..views.default import week_view
+    dummerrequest.authenticated_userid = "Bob Barker"
+    dummerrequest.matchdict["week_num"] = 5
+    dummerrequest.method = "POST"
+    dummerrequest.params = {"game": "away 1 1"}
+    assert isinstance(week_view(dummerrequest), HTTPFound)
+
+
+def test_week_view_post_request_creates_new_pick(dummerrequest, populated_db):
+    from ..views.default import week_view
+    dummerrequest.authenticated_userid = "Bob Barker"
+    dummerrequest.matchdict["week_num"] = 5
+    dummerrequest.method = "POST"
+    dummerrequest.params = {"game": "away 1 1"}
+    week_view(dummerrequest)
+    new_pick = dummerrequest.dbsession.new.pop()
+    assert isinstance(new_pick, Pick)
+
+
+def test_pool_view_output(dummy_request, populated_db):
+    from ..views.default import pool_view
+    expected_result = ["users", "week", "events"]
+    result = pool_view(dummy_request)
+    assert all(names in result.keys() for names in expected_result)
