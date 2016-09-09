@@ -30,7 +30,7 @@
                                 {% endif %}
                             {% endfor %} 
                             <span class="team"><input id="{{game._away}}" class="game_radio" type="radio" name="game"value="away {{ game.id }} {{ week }}">
-                            {{ game.away }} </span>
+                            <span class="{{game._away}}j">{{ game.away }}</span> </span>
                         </div>
                         <div class="col-md-6">
                         {% for team in teams %}
@@ -39,7 +39,7 @@
                             {% endif %}
                         {% endfor %}
                         <input id="{{game._home}}" class="game_radio" type="radio" name="game" value="home {{ game.id }} {{ week }}">
-                        {{ game.home }}</span>
+                        <span class="{{game._home}}j">{{ game.home }}</span></span>
                         </div>
                     </div>
                     {{ game.datetime.strftime('%A %B %d, %Y %I:%M %p').lstrip("0").replace(" 0", " ")}}
@@ -49,21 +49,28 @@
             </form>
         </div>
         <div class='col-md-5'>
-            <h3> Byes this week</h3> 
-            {% for team in teams %}
-                {% if week|int ==  team.bye_week %}
-                    <img class='icon grey-img' src='{{ team.icon }}'> {{ team.name }}<br> 
-                {% endif %}
-            {% endfor %}
-
-            <h3>You can not pick your past picks</h3>
-            {% for past in past_full %}
+            {% if week in weeks_with_no_byes %}
+                <h3>No byes this week</h3> 
+            {% else %}
+                <h3> Byes this week</h3> 
                 {% for team in teams %}
-                    {% if past ==  team.name %}
-                        <img class='icon grey-img' src='{{ team.icon }}'> {{ past }}<br> 
+                    {% if week|int ==  team.bye_week %}
+                        <img class='icon grey-img' src='{{ team.icon }}'> {{ team.name }}<br> 
                     {% endif %}
                 {% endfor %}
-            {% endfor %}
+            {% endif %}
+
+            {% if past_full %}
+                <h3>You can not pick your past picks</h3>
+                {% for past in past_full %}
+                    {% for team in teams %}
+                        {% if past ==  team.name %}
+                            <img class='icon grey-img' src='{{ team.icon }}'> {{ past }}<br> 
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+
         </div>
     </div>
     <script>
@@ -71,6 +78,8 @@
         for(var i = 0; i < past_picks.length; i++) {
         $('#' + past_picks[i] + '').prop("disabled", true);
         $('.' + past_picks[i] + '').css("-webkit-filter", "grayscale(100%)");
+        $('.' + past_picks[i] + 'j').css("color", "#a7a7a7");
+
         }
     </script>
     <script type="text/javascript">
