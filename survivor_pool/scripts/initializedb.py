@@ -18,7 +18,7 @@ from ..models.test_users import TEST_USERS
 from ..models.event import Event
 from ..models.events_dict import EVENTS
 from ..models.pick import Pick
-from ..models.pick_dict import TEST_PICKS
+from ..models.pick_dict import INITIAL_PICKS
 from ..models.team import Team
 from ..models.teams_dict import TEAMS
 
@@ -62,7 +62,7 @@ def main(argv=sys.argv):
                          datetime=datetime.datetime.strptime(entry["datetime"], "%A %B %d %Y %H:%M"))
             dbsession.add(game)
 
-        for entry in TEST_PICKS:
+        for entry in INITIAL_PICKS:
             pick = Pick(user_id=entry["user_id"],
                         event_id=entry["event_id"],
                         team=entry["team"],

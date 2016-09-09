@@ -61,7 +61,7 @@
                 <h3> Byes this week</h3> 
                 {% for team in teams %}
                     {% if week|int ==  team.bye_week %}
-                        <img class='icon grey-img' src='{{ team.icon }}'> {{ team.name }}<br> 
+                        <img class='icon grey-img' src='{{ team.icon }}'> <span class ="grey-text">{{ team.name }}</span><br> 
                     {% endif %}
                 {% endfor %}
             {% endif %}
@@ -71,7 +71,7 @@
                 {% for past in past_full %}
                     {% for team in teams %}
                         {% if past ==  team.name %}
-                            <img class='icon grey-img' src='{{ team.icon }}'> {{ past }}<br> 
+                            <img class='icon grey-img' src='{{ team.icon }}'> <span class ="grey-text">{{ past }}</span><br> 
                         {% endif %}
                     {% endfor %}
                 {% endfor %}
@@ -79,13 +79,13 @@
 
         </div>
     </div>
+
     <script>
         var past_picks = JSON.parse('{{past_picks|safe}}');
         for(var i = 0; i < past_picks.length; i++) {
         $('#' + past_picks[i] + '').prop("disabled", true);
         $('.' + past_picks[i] + '').css("-webkit-filter", "grayscale(100%)");
         $('.' + past_picks[i] + 'j').css("color", "#a7a7a7");
-
         }
     </script>
     {% if not is_alive %}
