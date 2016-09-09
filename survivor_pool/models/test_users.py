@@ -11,10 +11,10 @@ TEST_USERS = [
         "isalive": True
     },
     {
-        "username": "Ficticious Guy",
-        "password": pwd_context.encrypt("ballcap"),
+        "username": "Nick",
+        "password": pwd_context.encrypt("password"),
         "isadmin": False,
-        "isalive": False
+        "isalive": True
     },
     {
         "username": "James",
