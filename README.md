@@ -36,6 +36,10 @@ Then run $ PIP install -e .
 91%
 
 
+###License
+MIT License
+
+
 ### Authors
 
 __James Canning__ 
