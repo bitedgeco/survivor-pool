@@ -35,6 +35,7 @@ Then run $ PIP install -e .
 ###Coverage
 Overall coverage 94%.
 
+```
 survivor_pool/tests/tests.py ...................................
 
 ---------- coverage: platform darwin, python 2.7.12-final-0 ----------
@@ -67,8 +68,8 @@ survivor_pool/views/default.py                  101      2    98%   122-123
 survivor_pool/views/notfound.py                  11      0   100%
 ---------------------------------------------------------------------------
 TOTAL                                           607     34    94%
-
-
+```
+```
 survivor_pool/tests/tests.py ...................................
 
 ---------- coverage: platform darwin, python 3.5.2-final-0 -----------
@@ -101,7 +102,7 @@ survivor_pool/views/default.py                  101      2    98%   122-123
 survivor_pool/views/notfound.py                  11      0   100%
 ---------------------------------------------------------------------------
 TOTAL                                           607     34    94%
-
+```
 
 ###License
 MIT License
