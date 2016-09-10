@@ -34,16 +34,19 @@ TEST_DB_SETTINGS = {'sqlalchemy.url': TEST_DB_URL}
 
 @pytest.fixture(scope="session")
 def provide_test_url():
+    """Return a test url."""
     return TEST_DB_URL
 
 
 @pytest.fixture()
 def dummy_request(new_session):
+    """Return a dummy request."""
     return testing.DummyRequest(dbsession=new_session)
 
 
 class DummerRequest():
     """Sub for DummyRequest when it won't work for a specific purpose."""
+
     matchdict = {}
     authenticated_userid = ""
     params = {}
@@ -60,11 +63,13 @@ class DummerRequest():
 
 @pytest.fixture(scope="function")
 def dummerrequest(new_session):
+    """Return the request without a defualt auth_userid."""
     return DummerRequest(dbsession=new_session)
 
 
 @pytest.fixture(scope="function")
 def sqlengine(request):
+    """Create an engine."""
     config = testing.setUp(settings=TEST_DB_SETTINGS)
     config.include("..models")
     config.include("..routes")
@@ -83,7 +88,7 @@ def sqlengine(request):
 
 @pytest.fixture(scope="function")
 def testapp(sqlengine, provide_test_url):
-    '''Setup TestApp.'''
+    """Setup TestApp."""
     from survivor_pool import main
     app = main({}, **TEST_DB_SETTINGS)
     from webtest import TestApp
@@ -92,6 +97,7 @@ def testapp(sqlengine, provide_test_url):
 
 @pytest.fixture(scope='session')
 def auth_env():
+    """Create a enviroment with username and password."""
     username = 'Bob Barker'
     password = 'password'
     os.environ['AUTH_USERNAME'] = username
@@ -101,6 +107,7 @@ def auth_env():
 
 @pytest.fixture(scope='function')
 def auth_app(testapp, auth_env):
+    """Create a testapp with authenticated user."""
     username, password = auth_env
     auth_data = {
         'username': username,
@@ -112,6 +119,7 @@ def auth_app(testapp, auth_env):
 
 @pytest.fixture(scope='session')
 def admin_env():
+    """Create an admin enviroment."""
     username = 'Zach'
     password = 'laptop'
     os.environ['AUTH_USERNAME'] = username
@@ -121,6 +129,7 @@ def admin_env():
 
 @pytest.fixture(scope='function')
 def admin_app(testapp, admin_env):
+    """Create a test app with admin rights."""
     username, password = admin_env
     auth_data = {
         'username': username,
@@ -132,6 +141,7 @@ def admin_app(testapp, admin_env):
 
 @pytest.fixture(scope="function")
 def new_session(sqlengine, request):
+    """Return a session."""
     session_factory = get_session_factory(sqlengine)
     session = get_tm_session(session_factory, transaction.manager)
 
@@ -144,6 +154,7 @@ def new_session(sqlengine, request):
 
 @pytest.fixture(scope="function")
 def populated_db(request, sqlengine):
+    """Populate a database with test user data."""
     session_factory = get_session_factory(sqlengine)
     session = get_tm_session(session_factory, transaction.manager)
 
