@@ -9,11 +9,13 @@ from .models.user import User
 
 
 class UserAuth(object):
+    """Class for authenticated User."""
 
     def __init__(self, request):
         self.request = request
 
     def __acl__(self):
+        """Create an access control list."""
         this_acl = [
             (Allow, Everyone, 'public'),
             (Allow, Authenticated, 'private'),
@@ -26,7 +28,7 @@ class UserAuth(object):
 
 
 def check_credentials(request, username, password):
-    """Checks user submitted username and pw against stored pw to determine authentication state."""
+    """Check user submitted username and pw against stored pw to determine authentication state."""
     gotten_usernames = request.dbsession.query(User).all()
     is_authenticated = False
     if gotten_usernames:
