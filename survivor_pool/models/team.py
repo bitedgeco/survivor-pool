@@ -10,6 +10,7 @@ from .meta import Base
 
 
 class Team(Base):
+    """Model for a team."""
     __tablename__ = 'teams'
     id = Column(Integer, primary_key=True)
     name = Column(Text)

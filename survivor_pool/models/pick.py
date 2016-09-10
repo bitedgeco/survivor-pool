@@ -12,6 +12,7 @@ from .meta import Base
 
 
 class Pick(Base):
+    """Creates a join table between the events and users models."""
     __tablename__ = 'picks'
     user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
     event_id = Column(Integer, ForeignKey('events.id'), primary_key=True)

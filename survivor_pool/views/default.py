@@ -1,3 +1,5 @@
+"""Views for the SUrvivor Pool app."""
+
 from pyramid.response import Response
 from pyramid.view import view_config
 from ..security import check_credentials
@@ -12,17 +14,20 @@ from ..scripts.helper import classable_text_conversion
 
 @view_config(route_name='home', renderer='templates/home.jinja2', permission='public')
 def home_view(request):
+    """View for the home view."""
     current_week = find_current_week(request)
     return {"current_week": current_week}
 
 
 @view_config(route_name='about', renderer='templates/about.jinja2', permission='public')
 def about_view(request):
+    """View for the about page."""
     return {}
 
 
 @view_config(route_name='admin', renderer='templates/admin.jinja2', permission='admin')
 def admin_view(request):
+    """View for the admin page. If a post request, will result the winners/losers."""
     from ..models.team import Team
     from ..models.event import Event
     list_of_weeks_with_no_byes = [1, 2, 3, 12, 14, 15, 16, 17]
@@ -52,6 +57,7 @@ def admin_view_post_helper(request):
 
 @view_config(route_name='login-signup', renderer='templates/login-signup.jinja2', permission='public')
 def login_view(request):
+    """View to log into the website. With succesful login will route to the login page."""
     if request.method == 'POST':
         if request.params.get('username', ''):
             username = request.params.get('username', '')
@@ -75,6 +81,7 @@ def login_view(request):
 
 @view_config(route_name='pick', renderer='templates/pick.jinja2')
 def week_view(request):
+    """View that allows a person to pick which team they would want to select for the week."""
     from ..models.team import Team
     from ..models.event import Event
     import json
@@ -120,12 +127,14 @@ def week_view(request):
 
 @view_config(route_name='logout')
 def logout(request):
+    """View for the logout page."""
     headers = forget(request)
     return HTTPFound(request.route_url('home'), headers=headers)
 
 
 @view_config(route_name='pool', renderer='templates/pool.jinja2')
 def pool_view(request):
+    """View to show participants status."""
     query = request.dbsession.query(User)
     users = query.order_by(User.username).all()
     week = find_current_week(request) - 1

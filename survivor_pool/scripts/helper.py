@@ -8,7 +8,7 @@ from ..models.event import Event
 
 
 def find_current_week(request, current_time=None):
-    """This function returns the current week in the pool for which
+    """Return the current week in the pool for which
     selections can still be made.
 
     Option: current_time can be keyworded for testing or demonstration
