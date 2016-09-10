@@ -1,0 +1,44 @@
+html { 
+    position: relative;
+    min-height: 100%;
+}
+
+h1 {
+    text-align: center;
+}
+
+.loginH1 {
+    text-align: left;
+}
+
+#content {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+}
+
+.paginationcentre {
+    text-align: center;
+}
+
+.icon {
+    max-width: 50px;
+}
+
+.panel-footer {
+    margin-top: 5rem;
+    background-image: linear-gradient(#FFF, #58ae82);
+    border-top: none;
+    height: 5rem;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center
+}
+
+.each_game {
+    padding: 1rem;
+}
+
+.each_game li {
+    list-style-type: none;
+}

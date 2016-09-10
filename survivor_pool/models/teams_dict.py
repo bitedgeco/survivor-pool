@@ -1,0 +1,37 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
+TEAMS = [
+    {'name': 'Arizona Cardinals', 'bye_week': '9', 'icon': '/static/img/icons/128-Cardinals.ico'},
+    {'name': 'Atlanta Falcons', 'bye_week': '11', 'icon': '/static/img/icons/128-Falcons.ico'},
+    {'name': 'Baltimore Ravens', 'bye_week': '8', 'icon': '/static/img/icons/128-Ravens.ico'},
+    {'name': 'Buffalo Bills', 'bye_week': '10', 'icon': '/static/img/icons/128-Bills.ico'},
+    {'name': 'Carolina Panthers', 'bye_week': '7', 'icon': '/static/img/icons/128-Panthers.ico'},
+    {'name': 'Chicago Bears', 'bye_week': '9', 'icon': '/static/img/icons/128-Bears.ico'},
+    {'name': 'Cincinnati Bengals', 'bye_week': '9', 'icon': '/static/img/icons/128-Bengals.ico'},
+    {'name': 'Cleveland Browns', 'bye_week': '13', 'icon': '/static/img/icons/128-Browns.ico'},
+    {'name': 'Dallas Cowboys', 'bye_week': '7', 'icon': '/static/img/icons/128-Cowboys.ico'},
+    {'name': 'Denver Broncos', 'bye_week': '11', 'icon': '/static/img/icons/128-Broncos.ico'},
+    {'name': 'Detroit Lions', 'bye_week': '10', 'icon': '/static/img/icons/128-Lions.ico'},
+    {'name': 'Green Bay Packers', 'bye_week': '4', 'icon': '/static/img/icons/128-Packers.ico'},
+    {'name': 'Houston Texans', 'bye_week': '9', 'icon': '/static/img/icons/128-Texans.ico'},
+    {'name': 'Indianapolis Colts', 'bye_week': '10', 'icon': '/static/img/icons/128-Colts.ico'},
+    {'name': 'Jacksonville Jaguars', 'bye_week': '5', 'icon': '/static/img/icons/128-Jaguars.ico'},
+    {'name': 'Kansas City Chiefs', 'bye_week': '5', 'icon': '/static/img/icons/128-Chiefs.ico'},
+    {'name': 'Los Angeles Rams', 'bye_week': '8', 'icon': '/static/img/icons/128-Rams.ico'},
+    {'name': 'Miami Dolphins', 'bye_week': '8', 'icon': '/static/img/icons/128-Dolphins.ico'},
+    {'name': 'Minnesota Vikings', 'bye_week': '6', 'icon': '/static/img/icons/128-Vikings.ico'},
+    {'name': 'New England Patriots', 'bye_week': '5', 'icon': '/static/img/icons/128-Patriots.ico'},
+    {'name': 'New Orleans Saints', 'bye_week': '9', 'icon': '/static/img/icons/128-Saints.ico'},
+    {'name': 'New York Giants', 'bye_week': '8', 'icon': '/static/img/icons/128-Giants.ico'},
+    {'name': 'New York Jets', 'bye_week': '11', 'icon': '/static/img/icons/128-Jets.ico'},
+    {'name': 'Oakland Raiders', 'bye_week': '10', 'icon': '/static/img/icons/128-Raiders.ico'},
+    {'name': 'Philadelphia Eagles', 'bye_week': '4', 'icon': '/static/img/icons/128-Eagles.ico'},
+    {'name': 'Pittsburgh Steelers', 'bye_week': '8', 'icon': '/static/img/icons/128-Steelers.ico'},
+    {'name': 'San Diego Chargers', 'bye_week': '11', 'icon': '/static/img/icons/128-Chargers.ico'},
+    {'name': 'San Francisco 49ers', 'bye_week': '8', 'icon': '/static/img/icons/128-49ers.ico'},
+    {'name': 'Seattle Seahawks', 'bye_week': '5', 'icon': '/static/img/icons/128-Seahawks.ico'},
+    {'name': 'Tampa Bay Buccaneers', 'bye_week': '6', 'icon': '/static/img/icons/128-Buccaneers.ico'},
+    {'name': 'Tennessee Titans', 'bye_week': '13', 'icon': '/static/img/icons/128-Titans.ico'},
+    {'name': 'Washington Redskins', 'bye_week': '9', 'icon': '/static/img/icons/128-Redskins.ico'}
+]

@@ -1,0 +1,54 @@
+#logo {
+    height: 4rem;
+    margin-top: -0.7rem;
+}
+
+.navbar-brand:hover {
+  opacity: 0.7;
+}
+
+.nav-hover:hover {
+    background-color: #eee;
+}
+
+i {
+    color: #377a97;
+}
+
+#hero {
+    display: block;
+    margin: auto;
+}
+
+.about-pic {
+    max-height: 250px;
+    padding-top: 5rem;
+    border-radius: 1rem;
+}
+
+#games_list {
+    list-style-type: none;
+}
+
+#welcome {
+    padding-top: 1.5rem;
+    color: #58ae82; 
+}
+
+
+.team {
+    font-size: 18px;
+}
+
+.grey-img {
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%); /* Chrome, Safari, Opera */
+}
+
+.btn {
+    background-color: #58ae82;
+}
+
+.grey-text {
+    color: #a7a7a7;
+}
